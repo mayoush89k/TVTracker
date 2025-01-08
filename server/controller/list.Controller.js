@@ -1,13 +1,18 @@
 import { isValidObjectId } from "mongoose";
 import STATUS_CODES from "../constants/statusCodes.js";
-
 import List from "../models/list.model.js";
+
+const sendError = (res, statusCode, errorMsg) => {
+  console.log("statusCode: ", statusCode);
+  res.status(statusCode);
+  throw new Error(errorMsg);
+};
 
 //   getItems,
 export const getItems = async (req, res, next) => {
   try {
-    const items = await List.find().sort({ Name: -1 }).populate("items");
-    resizeBy.send(items);
+    const items = await List.find().sort({ name: -1 });
+    res.send(items);
   } catch (error) {
     next(error);
   }
@@ -16,17 +21,16 @@ export const getItems = async (req, res, next) => {
 // addNewItem,
 export const addNewItem = async (req, res, next) => {
   try {
-    const { itemId, name, rate, episodes, season, isCompleted } = req.body;
-    const existingItem = await Item.FindOne({ itemId });
-    if (!existingItem) {
+    const { name, rating, episode, season, isCompleted } = req.body;
+    const existingItem = await List.findOne({ name });
+    if (existingItem) {
       sendError(res, STATUS_CODES.CONFLICT, "Item is already exist");
     }
 
-    const newItem = await Item.create({
-      itemId,
+    const newItem = await List.create({
       name,
-      rate,
-      episodes,
+      rating,
+      episode,
       season,
       isCompleted,
     });
@@ -43,7 +47,7 @@ export const getItemById = async (req, res, next) => {
     if (!isValidObjectId(id)) {
       sendError(res, STATUS_CODES.BAD_REQUEST, "Invalid item id");
     }
-    const item = await Item.findById(id).populate("items");
+    const item = await List.findById(id);
     if (!item) {
       sendError(res, STATUS_CODES.NOT_FOUND, "Item not found");
     }
@@ -56,15 +60,15 @@ export const getItemById = async (req, res, next) => {
 //   updateItemById,
 export const updateItemById = async (req, res, next) => {
   try {
-    const itemId = req.params.itemId;
-    if (!isValidObjectId(id)) {
+    const itemId = req.params.id;
+    console.log(itemId)
+    if (!isValidObjectId(itemId)) {
       sendError(res, STATUS_CODES.BAD_REQUEST, "Invalid item id");
     }
-    await Item,
-      findByIdAndUpdate(id, {
-        ...req.body,
-      });
-    const updatedItem = await Item.findById(id);
+    await List.findByIdAndUpdate(itemId, {
+      ...req.body,
+    });
+    const updatedItem = await List.findById(itemId);
     res.send(updatedItem);
   } catch (error) {
     next(error);
@@ -72,20 +76,20 @@ export const updateItemById = async (req, res, next) => {
 };
 
 //   deleteItemById,
-export const deleteAnItem = async (req, res, next) => {
+export const deleteItemById = async (req, res, next) => {
   try {
     const { id } = req.params;
     if (!isValidObjectId(id)) {
       sendError(res, STATUS_CODES.BAD_REQUEST, "Invalid item id");
     }
 
-    const deletedItem = await Item.findById(id);
+    const deletedItem = await List.findById(id);
 
     if (!deletedItem) {
       sendError(res, STATUS_CODES.NOT_FOUND, "Item not found");
     }
 
-    await Item.deleteOne({ itemId: deletedItem.itemId });
+    await List.deleteOne({ itemId: deletedItem.itemId });
     res.send(`${deletedItem.name} has been deleted`);
   } catch {
     next(error);

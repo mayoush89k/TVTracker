@@ -2,7 +2,7 @@ import {config} from "dotenv";
 import express from "express";
 import listRoutes from "./routes/list.routes.js"
 import connectDB from "./config/db.connection.js";
-import {errorHandler} from './middleware/errorMiddleware.js'
+import {errorHandler} from "./middleware/error.middleware.js";
 import cors from 'cors'
 
 
@@ -13,10 +13,10 @@ app.use(express.json());
 
 config();
 
-app.use("list", listRoutes)
+app.use("/list", listRoutes)
 app.use(errorHandler)
 
-const port = process.env.port || 3434;
+const port = process.env.port || 3030;
 connectDB().then(() => {
     app.listen(port, () => console.log(`Server is running on ${port}`));
 })

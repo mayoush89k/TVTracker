@@ -5,7 +5,7 @@ import {
   getItemById,
   updateItemById,
   deleteItemById,
-} from "../controllers/itemsController.js";
+} from "../controller/list.Controller.js";
 
 
 const router = Router();

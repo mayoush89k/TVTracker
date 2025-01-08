@@ -9,11 +9,6 @@ const ItemSchema = new Schema({
     type: Number,
     required: [true, "Please provide the Rating"],
   },
-  itemId: {
-    type: String,
-    required: [true, "Please provide the ItemId"],
-    unique: [true, "Item id must be unique"],
-  },
   episode: {
     type: Number,
     default: 1,
@@ -28,5 +23,5 @@ const ItemSchema = new Schema({
   },
 });
 
-const Item = model("Item", ItemSchema);
-export default Item;
+const List = model("List", ItemSchema);
+export default List;
