@@ -7,7 +7,7 @@ export const ShowListProvider = ({ children }) => {
   const [showList, setShowList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const url = "http://localhost:3434/shows/";
+  const url = "https://tvtracker.onrender.com/shows/";
 
   const getAll = () => fetchGetAllShowLists();
   const fetchGetAllShowLists = async () => {
