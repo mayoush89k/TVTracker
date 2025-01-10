@@ -13,7 +13,7 @@ app.use(express.json());
 
 config();
 
-app.use("/list", listRoutes)
+app.use("/shows", listRoutes)
 app.use(errorHandler)
 
 const port = process.env.port || 3030;

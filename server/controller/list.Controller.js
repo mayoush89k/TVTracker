@@ -11,7 +11,7 @@ const sendError = (res, statusCode, errorMsg) => {
 //   getItems,
 export const getItems = async (req, res, next) => {
   try {
-    const items = await List.find().sort({ name: -1 });
+    const items = await List.find().sort({ name: 1 });
     res.send(items);
   } catch (error) {
     next(error);
@@ -61,7 +61,6 @@ export const getItemById = async (req, res, next) => {
 export const updateItemById = async (req, res, next) => {
   try {
     const itemId = req.params.id;
-    console.log(itemId)
     if (!isValidObjectId(itemId)) {
       sendError(res, STATUS_CODES.BAD_REQUEST, "Invalid item id");
     }
@@ -83,13 +82,13 @@ export const deleteItemById = async (req, res, next) => {
       sendError(res, STATUS_CODES.BAD_REQUEST, "Invalid item id");
     }
 
-    const deletedItem = await List.findById(id);
+    const deletedItem = await List.findById({_id:id});
 
     if (!deletedItem) {
       sendError(res, STATUS_CODES.NOT_FOUND, "Item not found");
     }
 
-    await List.deleteOne({ itemId: deletedItem.itemId });
+    await List.deleteOne({ _id: deletedItem._id });
     res.send(`${deletedItem.name} has been deleted`);
   } catch {
     next(error);

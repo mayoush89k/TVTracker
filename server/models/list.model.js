@@ -7,7 +7,7 @@ const ItemSchema = new Schema({
   },
   rating: {
     type: Number,
-    required: [true, "Please provide the Rating"],
+    default: 0,
   },
   episode: {
     type: Number,

@@ -40,3 +40,79 @@
 .read-the-docs {
   color: #888;
 }
+
+.showList{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.card {
+  border: 1px sold blueviolet;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
+  font-size: larger;
+  font-weight: bold;
+  color: blueviolet;
+  margin: 1rem;
+}
+.addNew {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+}
+.bPlus,
+.bMinus {
+  font-size: 0.5rem;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.bPlus,
+.bMinus,
+.addNew,
+.delete:hover,
+.addNewModal select:focus,
+.addNewModal input:focus,
+.addNewModal button {
+  background-color: blueviolet;
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  color: white;
+}
+
+.bPlus:hover,
+.bMinus:hover,
+.addNew:hover,
+.delete,
+.addNewModal select,
+.addNewModal input,
+.addNewModal button:hover {
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
+  background-color: white;
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  color: blueviolet;
+}
+
+.addNewModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
+  margin: 50px;
+}
+.addNewModal form {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  padding: 2rem;
+  text-align: left;
+  color: blueviolet;
+  font-size: 1rem;
+  font-weight: bold; 
+}
