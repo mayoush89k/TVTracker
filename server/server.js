@@ -16,7 +16,7 @@ config();
 app.use("/shows", listRoutes)
 app.use(errorHandler)
 
-const port = process.env.port || 3030;
+const port = process.env.port || 3434;
 connectDB().then(() => {
     app.listen(port, () => console.log(`Server is running on ${port}`));
 })
