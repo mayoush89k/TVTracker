@@ -94,3 +94,23 @@ export const deleteItemById = async (req, res, next) => {
     next(error);
   }
 };
+
+// return the completed show list
+export const getCompletedShowList = async (req, res, next) => {
+  try {
+    const items = await List.find({ isCompleted: true }).sort({ name: 1 });
+    res.send(items);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// return the incomplete show list
+export const getInCompletedShowList = async (req, res, next) => {
+  try {
+    const items = await List.find({ isCompleted: false }).sort({ name: 1 });
+    res.send(items);
+  } catch (error) {
+    next(error);
+  }
+};
