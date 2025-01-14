@@ -10,15 +10,17 @@ function ShowsList() {
     loading,
     error,
     setError,
-    getAll,
+    setToView,
+    toViewList,
     updateList,
     createNewList,
     deleteItem,
   } = useShowList();
 
   useEffect(() => {
-    getAll();
+    toViewList();
   }, []);
+
   return (
     <section>
       {console.log(showList)}
@@ -29,10 +31,21 @@ function ShowsList() {
       ) : error ? (
         <h1>Something went wrong</h1>
       ) : (
-        <section className="showList">
-          {showList.map((item) => (
-            <ShowItemCard key={item._id} item={item} />
-          ))}
+        <section>
+          <button className="completed" onClick={() => {localStorage.setItem("toView", "Completed"); setToView("Completed")}}>
+            Completed
+          </button>
+          <button className="completed" onClick={() => {localStorage.setItem("toView", "InComplete"); setToView("InComplete")}}>
+            InComplete
+          </button>
+          <button className="completed"  onClick={() => {localStorage.setItem("toView", ""); setToView("")}}>
+            All
+          </button>
+          <section className="showList">
+            {showList.map((item) => (
+              <ShowItemCard key={item._id} item={item} />
+            ))}
+          </section>
         </section>
       )}
     </section>

@@ -47,6 +47,17 @@
   flex-wrap: wrap;
 }
 
+.completed{
+  color: blueviolet;
+  font-weight: bold;
+  border: 2px solid transparent;
+}
+
+.completed:hover{
+  border: 2px solid transparent;
+  border-bottom-color: blueviolet;
+}
+
 .card {
   border: 1px sold blueviolet;
   padding: 1rem;

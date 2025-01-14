@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export const ShowListContext = createContext();
 export const useShowList = () => useContext(ShowListContext);
@@ -7,7 +7,12 @@ export const ShowListProvider = ({ children }) => {
   const [showList, setShowList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [toView, setToView] = useState(localStorage.getItem("toView"));
   const url = "https://tvtracker.onrender.com/shows/";
+
+  useEffect(() => {
+    toViewList();
+  }, [toView]);
 
   const getAll = () => fetchGetAllShowLists();
   const fetchGetAllShowLists = async () => {
@@ -156,6 +161,47 @@ export const ShowListProvider = ({ children }) => {
     }
   };
 
+  const toViewList = () => {
+    setToView(localStorage.getItem("toView"));
+    console.log(toView);
+    toView == "Completed"
+      ? fetchCompletedShowList()
+      : toView == "InComplete"
+      ? fetchInCompleteShowList()
+      : fetchGetAllShowLists();
+  };
+
+  // get all the data that has IsCompleted = true /?Completed=true"
+  const fetchCompletedShowList = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(url + "?Completed=true");
+      const data = await response.json();
+      setShowList(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(true);
+      setError(error);
+      setLoading(false);
+    }
+  };
+
+  // get all the data that has IsCompleted = false /?Completed=false"
+  const fetchInCompleteShowList = async () => {
+    console.log("incomplete");
+    try {
+      setLoading(true);
+      const response = await fetch(url + "?Completed=false");
+      const data = await response.json();
+      setShowList(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(true);
+      setError(error);
+      setLoading(false);
+    }
+  };
+
   return (
     <ShowListContext.Provider
       value={{
@@ -163,8 +209,9 @@ export const ShowListProvider = ({ children }) => {
         loading,
         error,
         setError,
+        setToView,
         addNewShowList,
-        getAll,
+        toViewList,
         deleteShowItem,
         increaseEpisode,
         decreaseEpisode,
