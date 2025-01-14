@@ -29,6 +29,7 @@ function StarRating(props) {
                 onClick={() => setTempRating(index + 1)}
                 onMouseEnter={() => setTempRating(index + 1)}
                 onMouseLeave={() => setTempRating(rating)}
+                className="ratingSpan"
                 style={{
                   cursor: "pointer",
                   color: index < tempRating ? "gold" : "lightgray",
@@ -39,10 +40,10 @@ function StarRating(props) {
               </span>
             ))}
           </div>
-          <button onClick={handleSave} style={{ margin: "10px", padding: "5px 15px" }}>
+          <button onClick={handleSave} className="ratingButton">
             Save
           </button>
-          <button onClick={() => setIsEditing(false)} style={{ margin: "10px", padding: "5px 15px" }}>
+          <button onClick={() => setIsEditing(false)} className="ratingButton">
             Cancel
           </button>
         </div>
@@ -61,7 +62,7 @@ function StarRating(props) {
               </span>
             ))}
           </div>
-          <button onClick={handleEdit} style={{ margin: "10px", padding: "5px 15px" }}>
+          <button onClick={handleEdit} className="starButton">
             Edit
           </button>
         </div>

@@ -41,13 +41,15 @@
   color: #888;
 }
 
-.showList{
+.showList {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
   border: 1px sold blueviolet;
   padding: 1rem;
   border-radius: 1rem;
@@ -57,14 +59,21 @@
   color: blueviolet;
   margin: 1rem;
 }
+
+.completed {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 24px;
+}
 .addNew {
   position: fixed;
   right: 20px;
   top: 20px;
+  padding: 0.5rem 1rem;
 }
 .bPlus,
 .bMinus {
-  font-size: 0.5rem;
+  font-size: 1.5rem;
   border-radius: 10px;
   font-weight: bold;
 }
@@ -77,8 +86,12 @@
 .addNewModal button {
   background-color: blueviolet;
   margin: 0.5rem;
-  padding: 0.5rem 1rem;
   color: white;
+}
+.addNewModal select,
+.addNewModal input,
+.addNewModal button:hover {
+  padding: 0.5rem 1rem;
 }
 
 .bPlus:hover,
@@ -91,8 +104,17 @@
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
   background-color: white;
   margin: 0.5rem;
-  padding: 0.5rem 1rem;
   color: blueviolet;
+}
+
+.ratingSpan {
+  margin: 10px;
+  padding: 5px 15px;
+}
+
+.starButton {
+  margin: 10px;
+  padding: 5px 15px;
 }
 
 .addNewModal {
@@ -114,5 +136,50 @@
   text-align: left;
   color: blueviolet;
   font-size: 1rem;
-  font-weight: bold; 
+  font-weight: bold;
+}
+
+@media screen and (max-width: 900px) {
+  #root {
+    padding: 10px;
+  }
+  .addNew {
+    position: relative;
+  }
+  section.showList {
+    flex-direction: column;
+  }
+
+  .card {
+    flex-direction: row;
+    font-size: 12px;
+    padding: 0.7rem;
+    margin: 0.2rem;
+  }
+  .completed {
+    text-align: center;
+    margin-top: 0;
+    font-size: 12px;
+  }
+  .bPlus,
+  .bMinus {
+    font-size: 0.5rem;
+  }
+  .ratingButton {
+    margin: 2px;
+    padding: 1px 3px;
+  }
+  .ratingSpan {
+    font-size: 0.5rem;
+  }
+  
+  .starButton {
+    margin: 5px;
+    font-size: 12px;
+    padding: 5px 15px;
+  }
+  .delete {
+    margin: 5px;
+    padding: 5px;
+  }
 }
