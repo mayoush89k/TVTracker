@@ -47,7 +47,7 @@ export const ShowListProvider = ({ children }) => {
 
       setShowList([...showList, response.data]);
       setLoading(false);
-      await fetchGetAllShowLists();
+      toViewList();
       return response.data;
     } catch (error) {
       setError(error);
@@ -65,7 +65,7 @@ export const ShowListProvider = ({ children }) => {
       setShowList(showList.filter((item) => item.id !== id));
 
       setLoading(false);
-      await fetchGetAllShowLists();
+      await toViewList();
     } catch (error) {
       setError(error);
     }
@@ -95,7 +95,7 @@ export const ShowListProvider = ({ children }) => {
         )
       );
       setLoading(false);
-      await fetchGetAllShowLists();
+      await toViewList();
       return response.data;
     } catch (error) {
       setError(error);
@@ -124,7 +124,7 @@ export const ShowListProvider = ({ children }) => {
         )
       );
       setLoading(false);
-      await fetchGetAllShowLists();
+      await toViewList();
       return response.data;
     } catch (error) {
       setError(error);
@@ -154,7 +154,7 @@ export const ShowListProvider = ({ children }) => {
       );
       console.log(setShowList);
       setLoading(false);
-      await fetchGetAllShowLists();
+      await getAll();
       return response.data;
     } catch (error) {
       setError(error);
@@ -168,7 +168,7 @@ export const ShowListProvider = ({ children }) => {
       ? fetchCompletedShowList()
       : toView == "InComplete"
       ? fetchInCompleteShowList()
-      : fetchGetAllShowLists();
+      : getAll();
   };
 
   // get all the data that has IsCompleted = true /?Completed=true"
@@ -212,6 +212,7 @@ export const ShowListProvider = ({ children }) => {
         setToView,
         addNewShowList,
         toViewList,
+        getAll,
         deleteShowItem,
         increaseEpisode,
         decreaseEpisode,

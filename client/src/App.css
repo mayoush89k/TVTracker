@@ -47,13 +47,13 @@
   flex-wrap: wrap;
 }
 
-.completed{
+.completed {
   color: blueviolet;
   font-weight: bold;
   border: 2px solid transparent;
 }
 
-.completed:hover{
+.completed:hover {
   border: 2px solid transparent;
   border-bottom-color: blueviolet;
 }
@@ -69,6 +69,12 @@
   font-weight: bold;
   color: blueviolet;
   margin: 1rem;
+}
+
+.seasonButtons,
+.episodeButtons {
+  display: flex;
+  flex-direction: row;
 }
 
 .completed {
@@ -119,8 +125,8 @@
 }
 
 .ratingSpan {
-  margin: 10px;
-  padding: 5px 15px;
+  margin: 1px;
+  padding: 1px;
 }
 
 .starButton {
@@ -150,6 +156,19 @@
   font-weight: bold;
 }
 
+.SeasonContainer,
+.EpisodeContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.starRatingContainer{
+  font-size: 1rem;
+  text-align: center;
+}
+
 @media screen and (max-width: 900px) {
   #root {
     padding: 10px;
@@ -160,9 +179,14 @@
   section.showList {
     flex-direction: column;
   }
+  section {
+    margin-top: 10px;
+  }
 
   .card {
     flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
     font-size: 12px;
     padding: 0.7rem;
     margin: 0.2rem;
@@ -183,7 +207,7 @@
   .ratingSpan {
     font-size: 0.5rem;
   }
-  
+
   .starButton {
     margin: 5px;
     font-size: 12px;
@@ -192,5 +216,22 @@
   .delete {
     margin: 5px;
     padding: 5px;
+  }
+  .addNewModal {
+    margin: auto;
+  }
+  .addNewModal form {
+    margin: 0.4rem;
+    padding: 0.4rem;
+  }
+  .SeasonContainer,
+  .EpisodeContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .starRatingContainer{
+    font-size: 0.5rem;
   }
 }

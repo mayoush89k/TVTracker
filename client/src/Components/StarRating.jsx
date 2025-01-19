@@ -18,7 +18,7 @@ function StarRating(props) {
   };
 
   return (
-    <div style={{ fontSize: "1rem", textAlign: "center" }}>
+    <div className="starRatingContainer">
       {isEditing ? (
         <div>
           {/* Editable Rating */}
@@ -53,6 +53,7 @@ function StarRating(props) {
           <div>
             {Array.from({ length: 5 }).map((_, index) => (
               <span
+              className="ratingSpan"
                 key={index}
                 style={{
                   color: index < rating ? "gold" : "lightgray",
