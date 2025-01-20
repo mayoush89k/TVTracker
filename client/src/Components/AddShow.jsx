@@ -3,9 +3,9 @@ import { useShowList } from "../context/ShowListContext";
 import { SpinnerDotted } from "spinners-react";
 
 function AddShow() {
-  const [newShowItem, setNewShowItem] = useState({episode: 1, season: 1});
-  const [error, setError] = useState("");
-  const { loading, addNewShowList } = useShowList();
+  const [newShowItem, setNewShowItem] = useState({ episode: 1, season: 1 });
+  const [newShowError, setNewShowError] = useState("");
+  const {error, loading, addNewShowList } = useShowList();
   const [isModalOpen, setIsModalOpen] = useState("");
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -13,15 +13,14 @@ function AddShow() {
   const saveHandle = (e) => {
     e.preventDefault();
     if (newShowItem.name != "") {
-      setError("Insert Show Name");
+      setNewShowError("Insert Show Name");
     }
     addNewShowList(newShowItem);
-    console.log("newShow: ", newShowItem);
-    if (!error && !loading) {
-      setTimeout(() => {
-        closeModal();
-      }, 2000);
-    }
+    closeModal();
+    // if (!error && !loading) {
+    //   setTimeout(() => {
+    //   }, 2000);
+    // }
   };
 
   return (
@@ -29,7 +28,7 @@ function AddShow() {
       <button
         className="addNew"
         onClick={() => {
-          setError("");
+          setNewShowError("");
           openModal();
         }}
       >
@@ -39,6 +38,8 @@ function AddShow() {
         <section className="addNewModal">
           {loading ? (
             <SpinnerDotted />
+          ) : error ? (
+            <h1>error</h1>
           ) : (
             <form>
               <section style={{ display: "flex", flexDirection: "row" }}>
@@ -84,7 +85,7 @@ function AddShow() {
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select>
-              {error && <label>{error}</label>}
+              {newShowError && <label>{newShowError}</label>}
               <button onClick={saveHandle}>Save</button>
             </form>
           )}
