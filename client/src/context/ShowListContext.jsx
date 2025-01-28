@@ -95,7 +95,7 @@ export const ShowListProvider = ({ children }) => {
         )
       );
       setLoading(false);
-      await toViewList();
+      toViewList();
       return response.data;
     } catch (error) {
       setError(error);
@@ -124,7 +124,7 @@ export const ShowListProvider = ({ children }) => {
         )
       );
       setLoading(false);
-      await toViewList();
+      toViewList();
       return response.data;
     } catch (error) {
       setError(error);
@@ -164,11 +164,24 @@ export const ShowListProvider = ({ children }) => {
   const toViewList = () => {
     setToView(localStorage.getItem("toView"));
     console.log(toView);
-    toView == "Completed"
-      ? fetchCompletedShowList()
-      : toView == "InComplete"
-      ? fetchInCompleteShowList()
-      : getAll();
+    switch (toView) {
+      case "Completed":
+        fetchCompletedShowList();
+        break;
+      case "InComplete":
+        fetchInCompleteShowList();
+        break;
+      case "InProgress":
+        fetchInProgressShowList();
+        break;
+      case "ToWatch":
+        fetchToWatchShowList();
+        break;
+
+      default:
+        fetchGetAllShowLists();
+        break;
+    }
   };
 
   // get all the data that has IsCompleted = true /?Completed=true"
@@ -199,6 +212,38 @@ export const ShowListProvider = ({ children }) => {
       setLoading(true);
       setError(error);
       setLoading(false);
+    }
+  };
+  // get all the data that are watching"
+  const fetchInProgressShowList = async () => {
+    console.log("in progress");
+    try {
+      setLoading(true);
+      const response = await fetch(url + "?Completed=false");
+      const data = await response.json();
+      const newData = data.filter((item) => item.episode > 0);
+      setShowList(newData);
+      setLoading(false);
+      // console.log(data);
+    } catch (error) {
+      setLoading(true);
+      setError(error);
+    }
+  };
+  // get all the data that has been started"
+  const fetchToWatchShowList = async () => {
+    console.log("to watch");
+    try {
+      setLoading(true);
+      const response = await fetch(url + "?Completed=false");
+      const data = await response.json();
+      const newData = data.filter((item) => item.episode == 0);
+      setShowList(newData);
+      setLoading(false);
+      // console.log(data);
+    } catch (error) {
+      setLoading(true);
+      setError(error);
     }
   };
 

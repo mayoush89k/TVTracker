@@ -120,8 +120,15 @@
 .addNewModal button:hover {
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
   background-color: white;
-  margin: 0.5rem;
+  margin: 0.6rem 0;
   color: blueviolet;
+}
+.bPlus,
+.bMinus,
+.bPlus:hover,
+.bMinus:hover {
+  margin: 2px;
+  width: 40px;
 }
 
 .ratingSpan {
@@ -164,7 +171,7 @@
   align-items: center;
 }
 
-.starRatingContainer{
+.starRatingContainer {
   font-size: 1rem;
   text-align: center;
 }
@@ -175,6 +182,8 @@
   }
   .addNew {
     position: relative;
+    font-size: 12px;
+    padding: 0.5rem;
   }
   section.showList {
     flex-direction: column;
@@ -185,16 +194,16 @@
 
   .card {
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     font-size: 12px;
     padding: 0.7rem;
-    margin: 0.2rem;
+    margin: 0.5rem;
   }
   .completed {
     text-align: center;
     margin-top: 0;
-    font-size: 12px;
+    font-size: 10px;
   }
   .bPlus,
   .bMinus {
@@ -223,6 +232,7 @@
   .addNewModal form {
     margin: 0.4rem;
     padding: 0.4rem;
+    font-size: 12px;
   }
   .SeasonContainer,
   .EpisodeContainer {
@@ -231,7 +241,14 @@
     justify-content: center;
     align-items: center;
   }
-  .starRatingContainer{
+  .starRatingContainer {
     font-size: 0.5rem;
+  }
+  .bPlus,
+  .bMinus,
+  .bPlus:hover,
+  .bMinus:hover {
+    margin: 2px;
+    width: 20px;
   }
 }
