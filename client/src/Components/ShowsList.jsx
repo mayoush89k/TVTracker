@@ -32,13 +32,49 @@ function ShowsList() {
         <h1>Something went wrong</h1>
       ) : (
         <section>
-          <button className="completed" onClick={() => {localStorage.setItem("toView", "Completed"); setToView("Completed")}}>
+          <button
+            className="completed"
+            onClick={() => {
+              localStorage.setItem("toView", "Completed");
+              setToView("Completed");
+            }}
+          >
             Completed
           </button>
-          <button className="completed" onClick={() => {localStorage.setItem("toView", "InComplete"); setToView("InComplete")}}>
+          <button
+            className="completed"
+            onClick={() => {
+              localStorage.setItem("toView", "InComplete");
+              setToView("InComplete");
+            }}
+          >
             InComplete
           </button>
-          <button className="completed"  onClick={() => {localStorage.setItem("toView", ""); setToView("")}}>
+          <button
+            className="completed"
+            onClick={() => {
+              localStorage.setItem("toView", "InProgress");
+              setToView("InProgress");
+            }}
+          >
+            In Progress
+          </button>
+          <button
+            className="completed"
+            onClick={() => {
+              localStorage.setItem("toView", "ToWatch");
+              setToView("ToWatch");
+            }}
+          >
+            To Watch
+          </button>
+          <button
+            className="completed"
+            onClick={() => {
+              localStorage.setItem("toView", "");
+              setToView("");
+            }}
+          >
             All
           </button>
           <section className="showList">
