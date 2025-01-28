@@ -15,7 +15,7 @@ function ShowItemCard({ item }) {
   return (
     <section className="card">
       {/* Name */}
-      <div>{item.name}</div>
+      <div className="title">{item.name}</div>
       {/* Completed icon */}
       <div className="completedIcon">
         <span
