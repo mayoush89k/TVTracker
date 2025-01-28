@@ -13,90 +13,92 @@ function ShowItemCard({ item }) {
     updateIsComplete,
   } = useShowList();
   return (
-    <section className="card">
+    <section className="cardContainer">
       {/* Name */}
       <div className="title">{item.name}</div>
-      {/* Completed icon */}
-      <div className="completedIcon">
-        <span
-          style={{
-            cursor: "pointer",
-            color: item.isCompleted ? "green" : "red",
-            marginRight: "10px",
+      <section className="card">
+        {/* Completed icon */}
+        <div className="completedIcon">
+          <span
+            style={{
+              cursor: "pointer",
+              color: item.isCompleted ? "green" : "red",
+              marginRight: "10px",
+            }}
+            onClick={() => updateIsComplete(item._id, item.isCompleted)}
+          >
+            {item.isCompleted ? "✔" : "✖"}
+          </span>
+        </div>
+        {/* Rating */}
+
+        <div>
+          <StarRating rating={item.rating} />
+        </div>
+        {/* current S/Ep */}
+        <div>
+          S{item.season} / E{item.episode}
+        </div>
+        {/* Inc/Dec Season */}
+        <div className="SeasonContainer">
+          <label>Season:</label>
+          <span className="seasonButtons">
+            <input
+              type="button"
+              className="bMinus"
+              value="-"
+              onClick={() => {
+                item.season - 1 < 1
+                  ? setError("Season Must be > 0")
+                  : decreaseSeason(item._id, item.season);
+              }}
+            />
+
+            <input
+              type="button"
+              value="+"
+              className="bPlus"
+              onClick={() => {
+                increaseSeason(item._id, item.season);
+              }}
+            />
+          </span>
+        </div>
+        {/* Inc/Dec Episode */}
+        <div className="EpisodeContainer">
+          <label>Episode:</label>
+          <span className="episodeButtons">
+            <input
+              type="button"
+              className="bMinus"
+              value="-"
+              onClick={() => {
+                item.episode - 1 < 1
+                  ? setError("Episode Must be > 0")
+                  : decreaseEpisode(item._id, item.episode);
+              }}
+            />
+            <input
+              type="button"
+              value="+"
+              className="bPlus"
+              onClick={() => {
+                increaseEpisode(item._id, item.episode);
+              }}
+            />
+          </span>
+        </div>
+        {/* Delete */}
+        <button
+          className="delete"
+          onClick={() => {
+            deleteShowItem(item._id);
           }}
-          onClick={() => updateIsComplete(item._id, item.isCompleted)}
         >
-          {item.isCompleted ? "✔" : "✖"}
-        </span>
-      </div>
-      {/* Rating */}
-
-      <div>
-        <StarRating rating={item.rating} />
-      </div>
-      {/* current S/Ep */}
-      <div>
-        S{item.season} / E{item.episode}
-      </div>
-      {/* Inc/Dec Season */}
-      <div className="SeasonContainer">
-        <label>Season:</label>
-        <span className="seasonButtons">
-          <input
-            type="button"
-            className="bMinus"
-            value="-"
-            onClick={() => {
-              item.season - 1 < 1
-                ? setError("Season Must be > 0")
-                : decreaseSeason(item._id, item.season);
-            }}
-          />
-
-          <input
-            type="button"
-            value="+"
-            className="bPlus"
-            onClick={() => {
-              increaseSeason(item._id, item.season);
-            }}
-          />
-        </span>
-      </div>
-      {/* Inc/Dec Episode */}
-      <div className="EpisodeContainer">
-        <label>Episode:</label>
-        <span className="episodeButtons">
-          <input
-            type="button"
-            className="bMinus"
-            value="-"
-            onClick={() => {
-              item.episode - 1 < 1
-                ? setError("Episode Must be > 0")
-                : decreaseEpisode(item._id, item.episode);
-            }}
-          />
-          <input
-            type="button"
-            value="+"
-            className="bPlus"
-            onClick={() => {
-              increaseEpisode(item._id, item.episode);
-            }}
-          />
-        </span>
-      </div>
-      {/* Delete */}
-      <button
-        className="delete"
-        onClick={() => {
-          deleteShowItem(item._id);
-        }}
-      >
-        🗑️
-      </button>
-      {error && <h4>{error}</h4>}
+          🗑️
+        </button>
+        {error && <h4>{error}</h4>}
+      </section>
     </section>
   );
 }
