@@ -17,7 +17,7 @@ function ShowItemCard({ item }) {
       {/* Name */}
       <div>{item.name}</div>
       {/* Completed icon */}
-      <div className="completed">
+      <div className="completedIcon">
         <span
           style={{
             cursor: "pointer",
