@@ -108,6 +108,7 @@
 .bMinus,
 .addNew,
 .delete:hover,
+.edit:hover,
 .addNewModal select:focus,
 .addNewModal input:focus,
 .addNewModal button {
@@ -125,20 +126,23 @@
 .bMinus:hover,
 .addNew:hover,
 .delete,
+.edit,
 .addNewModal select,
 .addNewModal input,
 .addNewModal button:hover {
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
   background-color: white;
-  margin: 0.6rem 0;
+  margin: 0.5rem ;
   color: blueviolet;
 }
+
 .bPlus,
 .bMinus,
 .bPlus:hover,
 .bMinus:hover {
   margin: 2px;
-  width: 30px;
+  width: 50px;
+  font-size: 2rem;
 }
 
 .ratingSpan {
@@ -247,6 +251,7 @@
     font-size: 12px;
     padding: 5px 15px;
   }
+  .edit,
   .delete {
     margin: 5px;
     padding: 5px;
