@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import StarRating from "./StarRating";
 import { useShowList } from "../context/ShowListContext";
+import EditingShow from "./EditingShow";
 
 function ShowItemCard({ item }) {
   const [error, setError] = useState("");
+  const [isOpenEditModel, setIsOpenEditModel] = useState(false);
   const {
     deleteShowItem,
     increaseEpisode,
@@ -12,8 +14,10 @@ function ShowItemCard({ item }) {
     decreaseSeason,
     updateIsComplete,
   } = useShowList();
+
   return (
     <section className="cardContainer">
+      {isOpenEditModel && <EditingShow item={item} setIsOpenEditModel={setIsOpenEditModel} />}
       {/* Name */}
       <div className="title">{item.name}</div>
       <section className="card">
@@ -88,15 +92,26 @@ function ShowItemCard({ item }) {
             />
           </span>
         </div>
-        {/* Delete */}
-        <button
-          className="delete"
-          onClick={() => {
-            deleteShowItem(item._id);
-          }}
-        >
-          🗑️
-        </button>
+        <div>
+          {/* Delete */}
+          <button
+            className="delete"
+            onClick={() => {
+              deleteShowItem(item._id);
+            }}
+          >
+            🗑️
+          </button>
+          {/* Edit */}
+          <button
+            className="edit"
+            onClick={() => {
+              setIsOpenEditModel(true);
+            }}
+          >
+            ✏️
+          </button>
+        </div>
         {error && <h4>{error}</h4>}
       </section>
     </section>

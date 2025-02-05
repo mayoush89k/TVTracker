@@ -7,6 +7,9 @@ export const ShowListProvider = ({ children }) => {
   const [showList, setShowList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [newShowError, setNewShowError] = useState("");
+  const [editError, setEditError] = useState("");
+  const [editLoading, setEditLoading] = useState(false);
   const [toView, setToView] = useState(localStorage.getItem("toView"));
   const url = "https://tvtracker.onrender.com/shows/";
 
@@ -49,8 +52,8 @@ export const ShowListProvider = ({ children }) => {
       setLoading(false);
       toViewList();
       return response.data;
-    } catch (error) {
-      setError(error);
+    } catch (newShowError) {
+      setNewShowError(newShowError);
     }
   };
 
@@ -247,12 +250,37 @@ export const ShowListProvider = ({ children }) => {
     }
   };
 
+  // editing the show requests and response
+  const editShowData = (item) => fetchEditShowItem(item);
+  const fetchEditShowItem = async (item) => {
+    try {
+      setEditLoading(true);
+      const response = await fetch(url + "/" + item._id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...item }),
+      });
+      const data = await response.json();
+      console.log(data);
+      toViewList()
+      setEditLoading(false);
+    } catch (editError) {
+      setLoading(true);
+      setEditError(editError);
+      setEditLoading(false);
+    }
+  };
+
   return (
     <ShowListContext.Provider
       value={{
         showList,
         loading,
         error,
+        newShowError,
+        setNewShowError,
         setError,
         setToView,
         addNewShowList,
@@ -264,6 +292,9 @@ export const ShowListProvider = ({ children }) => {
         increaseSeason,
         decreaseSeason,
         updateIsComplete,
+        editError,
+        editLoading,
+        editShowData,
       }}
     >
       {children}

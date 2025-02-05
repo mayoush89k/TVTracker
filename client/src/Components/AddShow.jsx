@@ -4,8 +4,7 @@ import { SpinnerDotted } from "spinners-react";
 
 function AddShow() {
   const [newShowItem, setNewShowItem] = useState({ episode: 1, season: 1 });
-  const [newShowError, setNewShowError] = useState("");
-  const {error, loading, addNewShowList } = useShowList();
+  const {newShowError,setNewShowError, error, loading, addNewShowList } = useShowList();
   const [isModalOpen, setIsModalOpen] = useState("");
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -69,7 +68,7 @@ function AddShow() {
                 onChange={(e) =>
                   setNewShowItem({ ...newShowItem, episode: e.target.value })
                 }
-                type="text"
+                type="number"
                 placeholder="Enter Episode"
                 defaultValue="1"
               />
