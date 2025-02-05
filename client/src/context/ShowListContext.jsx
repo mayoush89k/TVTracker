@@ -8,6 +8,7 @@ export const ShowListProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [newShowError, setNewShowError] = useState("");
+  const [newShowLoading, setNewShowLoading] = useState("");
   const [editError, setEditError] = useState("");
   const [editLoading, setEditLoading] = useState(false);
   const [toView, setToView] = useState(localStorage.getItem("toView"));
@@ -36,9 +37,8 @@ export const ShowListProvider = ({ children }) => {
   const addNewShowList = (newShowList) => fetchCreatingNewShowItem(newShowList);
   const fetchCreatingNewShowItem = async (newShowList) => {
     try {
-      setLoading(true);
-      console.log("newShowList: ", newShowList);
-
+      setNewShowLoading(true);
+      setNewShowError("")
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -46,10 +46,14 @@ export const ShowListProvider = ({ children }) => {
         },
         body: JSON.stringify(newShowList),
       });
-      console.log("response: ", response);
-
       setShowList([...showList, response.data]);
-      setLoading(false);
+
+      if (response.status != 400)
+        response.status == 409
+          ? setNewShowError("Conflict Item")
+          : setNewShowError("There is an Error to Add this Show");
+
+      setNewShowLoading(false);
       toViewList();
       return response.data;
     } catch (newShowError) {
@@ -264,7 +268,7 @@ export const ShowListProvider = ({ children }) => {
       });
       const data = await response.json();
       console.log(data);
-      toViewList()
+      toViewList();
       setEditLoading(false);
     } catch (editError) {
       setLoading(true);
@@ -279,10 +283,11 @@ export const ShowListProvider = ({ children }) => {
         showList,
         loading,
         error,
-        newShowError,
-        setNewShowError,
         setError,
         setToView,
+        newShowError,
+        newShowLoading,
+        setNewShowError,
         addNewShowList,
         toViewList,
         getAll,
