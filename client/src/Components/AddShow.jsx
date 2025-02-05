@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useShowList } from "../context/ShowListContext";
 import { SpinnerDotted } from "spinners-react";
 
 function AddShow() {
   const [newShowItem, setNewShowItem] = useState({ episode: 1, season: 1 });
-  const {newShowError,setNewShowError, error, loading, addNewShowList } = useShowList();
+  const { newShowError, setNewShowError, newShowLoading, addNewShowList } =
+    useShowList();
   const [isModalOpen, setIsModalOpen] = useState("");
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -15,12 +16,16 @@ function AddShow() {
       setNewShowError("Insert Show Name");
     }
     addNewShowList(newShowItem);
-    closeModal();
-    // if (!error && !loading) {
-    //   setTimeout(() => {
-    //   }, 2000);
-    // }
+    console.log("error: ", newShowError);
+
+    setTimeout(() => {
+      closeModal();
+    }, 2000);
   };
+
+  useEffect(() => {
+    setNewShowError("");
+  }, []);
 
   return (
     <section>
@@ -35,10 +40,10 @@ function AddShow() {
       </button>
       {isModalOpen && (
         <section className="addNewModal">
-          {loading ? (
+          {newShowLoading ? (
             <SpinnerDotted />
-          ) : error ? (
-            <h1>error</h1>
+          ) : newShowError ? (
+            <h4>{newShowError}</h4>
           ) : (
             <form>
               <section style={{ display: "flex", flexDirection: "row" }}>
