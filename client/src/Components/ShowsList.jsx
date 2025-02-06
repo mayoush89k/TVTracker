@@ -23,7 +23,6 @@ function ShowsList() {
 
   return (
     <section>
-      {console.log(showList)}
       {loading ? (
         <SpinnerDotted />
       ) : showList.length == 0 ? (
