@@ -38,7 +38,7 @@ export const ShowListProvider = ({ children }) => {
   const fetchCreatingNewShowItem = async (newShowList) => {
     try {
       setNewShowLoading(true);
-      setNewShowError("")
+      setNewShowError("");
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -86,7 +86,6 @@ export const ShowListProvider = ({ children }) => {
   const decreaseEpisode = (id, episode) =>
     fetchUpdatingEpisode(id, episode - 1);
   const fetchUpdatingEpisode = async (id, episode) => {
-    console.log(episode);
     try {
       setLoading(true);
       const response = await fetch(`${url}${id}`, {
@@ -115,7 +114,6 @@ export const ShowListProvider = ({ children }) => {
   // Decreasing Season
   const decreaseSeason = (id, season) => fetchUpdatingSeason(id, season - 1);
   const fetchUpdatingSeason = async (id, season) => {
-    console.log(season);
     try {
       setLoading(true);
       const response = await fetch(`${url}${id}`, {
@@ -143,7 +141,6 @@ export const ShowListProvider = ({ children }) => {
     fetchUpdatingIsComplete(id, isCompleted ? false : true);
 
   const fetchUpdatingIsComplete = async (id, isCompleted) => {
-    console.log(isCompleted);
     try {
       setLoading(true);
       const response = await fetch(`${url}${id}`, {
@@ -153,15 +150,16 @@ export const ShowListProvider = ({ children }) => {
         },
         body: JSON.stringify({ isCompleted: isCompleted }),
       });
-      console.log(response);
+
       setShowList(
         showList.map((item) =>
           item._id === id ? { ...item, isCompleted: isCompleted } : item
         )
       );
-      console.log(setShowList);
+
+      localStorage.setItem("toView", "All");
       setLoading(false);
-      await getAll();
+      toViewList();
       return response.data;
     } catch (error) {
       setError(error);
@@ -184,7 +182,9 @@ export const ShowListProvider = ({ children }) => {
       case "ToWatch":
         fetchToWatchShowList();
         break;
-
+      case "All":
+        fetchGetAllShowLists();
+        break;
       default:
         fetchGetAllShowLists();
         break;
@@ -208,7 +208,6 @@ export const ShowListProvider = ({ children }) => {
 
   // get all the data that has IsCompleted = false /?Completed=false"
   const fetchInCompleteShowList = async () => {
-    console.log("incomplete");
     try {
       setLoading(true);
       const response = await fetch(url + "?Completed=false");
@@ -223,7 +222,6 @@ export const ShowListProvider = ({ children }) => {
   };
   // get all the data that are watching"
   const fetchInProgressShowList = async () => {
-    console.log("in progress");
     try {
       setLoading(true);
       const response = await fetch(url + "?Completed=false");
@@ -231,7 +229,6 @@ export const ShowListProvider = ({ children }) => {
       const newData = data.filter((item) => item.episode > 0);
       setShowList(newData);
       setLoading(false);
-      // console.log(data);
     } catch (error) {
       setLoading(true);
       setError(error);
@@ -239,7 +236,6 @@ export const ShowListProvider = ({ children }) => {
   };
   // get all the data that has been started"
   const fetchToWatchShowList = async () => {
-    console.log("to watch");
     try {
       setLoading(true);
       const response = await fetch(url + "?Completed=false");
@@ -247,7 +243,6 @@ export const ShowListProvider = ({ children }) => {
       const newData = data.filter((item) => item.episode == 0);
       setShowList(newData);
       setLoading(false);
-      // console.log(data);
     } catch (error) {
       setLoading(true);
       setError(error);
@@ -267,7 +262,7 @@ export const ShowListProvider = ({ children }) => {
         body: JSON.stringify({ ...item }),
       });
       const data = await response.json();
-      console.log(data);
+
       toViewList();
       setEditLoading(false);
     } catch (editError) {
