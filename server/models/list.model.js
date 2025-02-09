@@ -21,6 +21,10 @@ const ItemSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  year:{
+    type: Number,
+    default: 0,
+  }
 });
 
 const List = model("List", ItemSchema);

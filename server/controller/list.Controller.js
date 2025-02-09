@@ -21,7 +21,7 @@ export const getItems = async (req, res, next) => {
 // addNewItem,
 export const addNewItem = async (req, res, next) => {
   try {
-    const { name, rating, episode, season, isCompleted } = req.body;
+    const { name, rating, episode, season, isCompleted, year } = req.body;
     const existingItem = await List.findOne({ name });
     if (existingItem) {
       sendError(res, STATUS_CODES.CONFLICT, "Item is already exist");
@@ -33,6 +33,7 @@ export const addNewItem = async (req, res, next) => {
       episode,
       season,
       isCompleted,
+      year,
     });
     res.status(STATUS_CODES.CREATED).send(newItem);
   } catch (error) {
@@ -82,7 +83,7 @@ export const deleteItemById = async (req, res, next) => {
       sendError(res, STATUS_CODES.BAD_REQUEST, "Invalid item id");
     }
 
-    const deletedItem = await List.findById({_id:id});
+    const deletedItem = await List.findById({ _id: id });
 
     if (!deletedItem) {
       sendError(res, STATUS_CODES.NOT_FOUND, "Item not found");
@@ -109,6 +110,27 @@ export const getCompletedShowList = async (req, res, next) => {
 export const getInCompletedShowList = async (req, res, next) => {
   try {
     const items = await List.find({ isCompleted: false }).sort({ name: 1 });
+    res.send(items);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// get all the shows by year
+export const getShowsListByYear = async (req, res, next) => {
+  try {
+    const { year } = req.params;
+    const items = await List.find({ year: year }).sort({ name: 1 });
+    res.send(items);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// sort the shows by year
+export const sortShowsByYear = async (req, res, next) => {
+  try {
+    const items = await List.find().sort({ year: 1 });
     res.send(items);
   } catch (error) {
     next(error);
