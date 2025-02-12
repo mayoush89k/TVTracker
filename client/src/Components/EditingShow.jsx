@@ -7,7 +7,7 @@ function EditingShow({ item, setIsOpenEditModel }) {
 
   const { editError, editLoading, editShowData } = useShowList();
   const saveHandle = (e) => {
-    e.preventDefault();
+    e.preventDefault();    
     editShowData(editedItem);
     !editError && setIsOpenEditModel(true)
     if (!editError && !editLoading) {
@@ -34,10 +34,18 @@ function EditingShow({ item, setIsOpenEditModel }) {
           type="text"
           value={editedItem.name}
         />
+        <label>Year:</label>
+        <input
+          onChange={(e) =>
+            setEditedItem({ ...editedItem, year: Number(e.target.value) })
+          }
+          type="number"
+          value={editedItem.year}
+        />
         <label>Season:</label>
         <input
           onChange={(e) =>
-            setEditedItem({ ...editedItem, season: e.target.value })
+            setEditedItem({ ...editedItem, season: Number(e.target.value) })
           }
           type="number"
           value={editedItem.season}
@@ -45,7 +53,7 @@ function EditingShow({ item, setIsOpenEditModel }) {
         <label>Episode:</label>
         <input
           onChange={(e) =>
-            setEditedItem({ ...editedItem, episode: e.target.value })
+            setEditedItem({ ...editedItem, episode: Number(e.target.value)})
           }
           type="number"
           value={editedItem.episode}
@@ -54,7 +62,7 @@ function EditingShow({ item, setIsOpenEditModel }) {
         <select
           value={editedItem.rating}
           onChange={(e) =>
-            setEditedItem({ ...editedItem, rating: e.target.value })
+            setEditedItem({ ...editedItem, rating: Number(e.target.value) })
           }
         >
           <option value="1">1</option>

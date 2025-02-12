@@ -19,7 +19,10 @@ function ShowItemCard({ item }) {
     <section className="cardContainer">
       {isOpenEditModel && <EditingShow item={item} setIsOpenEditModel={setIsOpenEditModel} />}
       {/* Name */}
-      <div className="title">{item.name}</div>
+      <div className="title">{item.name}
+
+      </div>
+      {item.year > 0 && <div className="title">{item.year}</div>}
       <section className="card">
         {/* Completed icon */}
         <div className="completedIcon">

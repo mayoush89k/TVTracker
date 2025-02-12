@@ -12,10 +12,13 @@ export const ShowListProvider = ({ children }) => {
   const [editError, setEditError] = useState("");
   const [editLoading, setEditLoading] = useState(false);
   const [toView, setToView] = useState(localStorage.getItem("toView"));
-  const url = "https://tvtracker.onrender.com/shows/";
+  const [yearsList, setYearsList] = useState([]);
+  // const url = "https://tvtracker.onrender.com/shows/";
+  const url = "http://localhost:3434/shows/";
 
   useEffect(() => {
     toViewList();
+    fetchYears();
   }, [toView]);
 
   const getAll = () => fetchGetAllShowLists();
@@ -253,6 +256,8 @@ export const ShowListProvider = ({ children }) => {
   const editShowData = (item) => fetchEditShowItem(item);
   const fetchEditShowItem = async (item) => {
     try {
+      console.log(item);
+      
       setEditLoading(true);
       const response = await fetch(url + "/" + item._id, {
         method: "PUT",
@@ -262,6 +267,8 @@ export const ShowListProvider = ({ children }) => {
         body: JSON.stringify({ ...item }),
       });
       const data = await response.json();
+      console.log(data);
+      
 
       toViewList();
       setEditLoading(false);
@@ -271,6 +278,40 @@ export const ShowListProvider = ({ children }) => {
       setEditLoading(false);
     }
   };
+
+  // get the list of years
+  const fetchYears = async () => {
+    try {
+      const response = await fetch(url);
+
+      const data = await response.json();
+      console.log(data);
+      const years = data.filter((item) => item.year > 0);
+      const filteredYears = years.reduce((acc, item) => {
+        if (!acc.includes(item.year)) acc.push(item.year);
+        return acc;
+      }, []);
+      setYearsList(filteredYears);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+
+  // get list of shows by especial year
+  const getShowsListByYear = (year) => fetchShowsByYear(year);
+  const fetchShowsByYear = async (year) => {
+    try {
+      const response = await fetch(url + "/?year=" + year);
+      const data = await response.json();
+      console.log(data);
+      setShowList(data)
+    }
+    catch(error){
+      setError(error)
+    }      
+  }
+
 
   return (
     <ShowListContext.Provider
@@ -295,6 +336,8 @@ export const ShowListProvider = ({ children }) => {
         editError,
         editLoading,
         editShowData,
+        yearsList,
+        getShowsListByYear
       }}
     >
       {children}
