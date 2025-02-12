@@ -119,7 +119,7 @@ export const getInCompletedShowList = async (req, res, next) => {
 // get all the shows by year
 export const getShowsListByYear = async (req, res, next) => {
   try {
-    const { year } = req.params;
+    const { year } = req.query;
     const items = await List.find({ year: year }).sort({ name: 1 });
     res.send(items);
   } catch (error) {
@@ -131,6 +131,16 @@ export const getShowsListByYear = async (req, res, next) => {
 export const sortShowsByYear = async (req, res, next) => {
   try {
     const items = await List.find().sort({ year: 1 });
+    res.send(items);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// sort the shows by episode
+export const sortShowsByEpisode = async (req, res, next) => {
+  try {
+    const items = await List.find().sort({ episode: 1 });
     res.send(items);
   } catch (error) {
     next(error);
