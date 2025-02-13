@@ -7,7 +7,6 @@ import {
   deleteItemById,
   getCompletedShowList,
   getInCompletedShowList,
-  getShowsListByYear,
   sortShowsByYear,
   sortShowsByEpisode
 } from "../controller/list.Controller.js";
@@ -23,8 +22,6 @@ router.get("/", (req, res, next) => {
   } else if (Completed === "false") {
     // Call the getInCompletedShowList logic
     getInCompletedShowList(req, res, next);
-  } else if (year > 0) {
-    getShowsListByYear(req, res, next);
   } else if (sortBy == "year") {
     sortShowsByYear(req, res, next);
   } else if (sortBy == "episode") {

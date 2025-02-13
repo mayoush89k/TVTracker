@@ -11,7 +11,10 @@ const sendError = (res, statusCode, errorMsg) => {
 //   getItems,
 export const getItems = async (req, res, next) => {
   try {
-    const items = await List.find().sort({ name: 1 });
+    const { year } = req.query;
+    const items = year
+      ? await List.find({ year: year }).sort({ name: 1 })
+      : await List.find().sort({ name: 1 });
     res.send(items);
   } catch (error) {
     next(error);
@@ -99,7 +102,10 @@ export const deleteItemById = async (req, res, next) => {
 // return the completed show list
 export const getCompletedShowList = async (req, res, next) => {
   try {
-    const items = await List.find({ isCompleted: true }).sort({ name: 1 });
+    const { year } = req.query;
+    const items = year
+      ? await List.find({ isCompleted: true, year }).sort({ name : 1})
+      : await List.find({ isCompleted: true }).sort({ name: 1 });
     res.send(items);
   } catch (error) {
     next(error);
@@ -109,23 +115,16 @@ export const getCompletedShowList = async (req, res, next) => {
 // return the incomplete show list
 export const getInCompletedShowList = async (req, res, next) => {
   try {
-    const items = await List.find({ isCompleted: false }).sort({ name: 1 });
+    const { year } = req.query;
+    const items = year
+      ? await List.find({ isCompleted: false, year }).sort({ name: 1 })
+      : await List.find({ isCompleted: false }).sort({ name: 1 });
     res.send(items);
   } catch (error) {
     next(error);
   }
 };
 
-// get all the shows by year
-export const getShowsListByYear = async (req, res, next) => {
-  try {
-    const { year } = req.query;
-    const items = await List.find({ year: year }).sort({ name: 1 });
-    res.send(items);
-  } catch (error) {
-    next(error);
-  }
-};
 
 // sort the shows by year
 export const sortShowsByYear = async (req, res, next) => {
