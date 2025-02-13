@@ -13,8 +13,8 @@ export const ShowListProvider = ({ children }) => {
   const [editLoading, setEditLoading] = useState(false);
   const [toView, setToView] = useState(localStorage.getItem("toView"));
   const [yearsList, setYearsList] = useState([]);
-  // const url = "https://tvtracker.onrender.com/shows/";
-  const url = "http://localhost:3434/shows/";
+  const url = "https://tvtracker.onrender.com/shows/";
+  // const url = "http://localhost:3434/shows/";
 
   useEffect(() => {
     toViewList();
@@ -259,7 +259,7 @@ export const ShowListProvider = ({ children }) => {
       console.log(item);
       
       setEditLoading(true);
-      const response = await fetch(url + "/" + item._id, {
+      const response = await fetch(url + item._id, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -302,7 +302,7 @@ export const ShowListProvider = ({ children }) => {
   const getShowsListByYear = (year) => fetchShowsByYear(year);
   const fetchShowsByYear = async (year) => {
     try {
-      const response = await fetch(url + "/?year=" + year);
+      const response = await fetch(url + "?year=" + year);
       const data = await response.json();
       console.log(data);
       setShowList(data)
