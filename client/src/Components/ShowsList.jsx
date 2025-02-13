@@ -86,15 +86,15 @@ function ShowsList() {
               </option>
             ))}
           </select>
-          {showList.length == 0 ? (
-            <h1 className="">No shows found</h1>
-          ) : (
-            <section className="showList">
-              {showList.map((item) => (
+          <section className="showList">
+            {showList.length == 0 ? (
+              <h1 className="">No shows found</h1>
+            ) : (
+              showList.map((item) => (
                 <ShowItemCard key={item._id} item={item} />
-              ))}
+              ))
+            )}
             </section>
-          )}
         </section>
       )}
     </section>
