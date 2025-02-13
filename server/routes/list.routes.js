@@ -7,12 +7,15 @@ import {
   deleteItemById,
   getCompletedShowList,
   getInCompletedShowList,
+  getShowsListByYear,
+  sortShowsByYear,
+  sortShowsByEpisode
 } from "../controller/list.Controller.js";
 
 const router = Router();
 
 router.get("/", (req, res, next) => {
-  const { Completed } = req.query; // Extract the 'Completed' query parameter
+  const { Completed, year, sortBy } = req.query; // Extract the 'Completed' query parameter
 
   if (Completed === "true") {
     // Call the getCompletedShowList logic
@@ -20,6 +23,12 @@ router.get("/", (req, res, next) => {
   } else if (Completed === "false") {
     // Call the getInCompletedShowList logic
     getInCompletedShowList(req, res, next);
+  } else if (year > 0) {
+    getShowsListByYear(req, res, next);
+  } else if (sortBy == "year") {
+    sortShowsByYear(req, res, next);
+  } else if (sortBy == "episode") {
+    sortShowsByEpisode(req, res, next);
   } else {
     getItems(req, res, next);
   }
@@ -28,7 +37,5 @@ router.post("/", addNewItem);
 router.get("/:id", getItemById);
 router.put("/:id", updateItemById);
 router.delete("/:id", deleteItemById);
-// router.get("/?Completed=true" , getCompletedShowList);
-// router.get("/?Completed=false" , getInCompletedShowList);
 
 export default router;

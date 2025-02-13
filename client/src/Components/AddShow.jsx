@@ -59,6 +59,14 @@ function AddShow() {
                 type="text"
                 placeholder="Enter Show Name"
               />
+              <label>Year:</label>
+              <input
+                onChange={(e) =>
+                  setNewShowItem({ ...newShowItem, year: e.target.value })
+                }
+                type="number"
+                placeholder="Enter Year"
+              />
               <label>Season:</label>
               <input
                 onChange={(e) =>
