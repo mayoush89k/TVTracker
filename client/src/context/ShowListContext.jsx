@@ -13,20 +13,25 @@ export const ShowListProvider = ({ children }) => {
   const [editLoading, setEditLoading] = useState(false);
   const [toView, setToView] = useState(localStorage.getItem("toView"));
   const [yearsList, setYearsList] = useState([]);
+  const [year, setYear] = useState("0");
+
+
   const url = "https://tvtracker.onrender.com/shows/";
   // const url = "http://localhost:3434/shows/";
 
   useEffect(() => {
     toViewList();
     fetchYears();
-  }, [toView]);
+  }, [toView, year]);
 
   const getAll = () => fetchGetAllShowLists();
   const fetchGetAllShowLists = async () => {
     try {
       setLoading(true);
-      const response = await fetch(url);
+      const response = await fetch( Number(year) == 0 ? url : url + "?year=" + year);
+      console.log(response);
       const data = await response.json();
+      console.log(data);
       setShowList(data);
       setLoading(false);
     } catch (error) {
@@ -75,7 +80,7 @@ export const ShowListProvider = ({ children }) => {
       setShowList(showList.filter((item) => item.id !== id));
 
       setLoading(false);
-      await toViewList();
+      toViewList();
     } catch (error) {
       setError(error);
     }
@@ -161,6 +166,7 @@ export const ShowListProvider = ({ children }) => {
       );
 
       localStorage.setItem("toView", "All");
+      setYear("0")
       setLoading(false);
       toViewList();
       return response.data;
@@ -198,7 +204,7 @@ export const ShowListProvider = ({ children }) => {
   const fetchCompletedShowList = async () => {
     try {
       setLoading(true);
-      const response = await fetch(url + "?Completed=true");
+      const response = year ? await fetch(url + "?Completed=true&year=" + year) : await fetch(url + "?Completed=true");
       const data = await response.json();
       setShowList(data);
       setLoading(false);
@@ -213,7 +219,7 @@ export const ShowListProvider = ({ children }) => {
   const fetchInCompleteShowList = async () => {
     try {
       setLoading(true);
-      const response = await fetch(url + "?Completed=false");
+      const response = year ? await fetch(url + "?Completed=false&year=" + year) : await fetch(url + "?Completed=false");
       const data = await response.json();
       setShowList(data);
       setLoading(false);
@@ -227,7 +233,7 @@ export const ShowListProvider = ({ children }) => {
   const fetchInProgressShowList = async () => {
     try {
       setLoading(true);
-      const response = await fetch(url + "?Completed=false");
+      const response = year ? await fetch(url + "?Completed=false&year=" + year) : await fetch(url + "?Completed=false");
       const data = await response.json();
       const newData = data.filter((item) => item.episode > 0);
       setShowList(newData);
@@ -241,7 +247,7 @@ export const ShowListProvider = ({ children }) => {
   const fetchToWatchShowList = async () => {
     try {
       setLoading(true);
-      const response = await fetch(url + "?Completed=false");
+      const response = year ? await fetch(url + "?Completed=false&year=" + year) : await fetch(url + "?Completed=false");
       const data = await response.json();
       const newData = data.filter((item) => item.episode == 0);
       setShowList(newData);
@@ -298,19 +304,20 @@ export const ShowListProvider = ({ children }) => {
   };
 
 
-  // get list of shows by especial year
-  const getShowsListByYear = (year) => fetchShowsByYear(year);
-  const fetchShowsByYear = async (year) => {
-    try {
-      const response = await fetch(url + "?year=" + year);
-      const data = await response.json();
-      console.log(data);
-      setShowList(data)
-    }
-    catch(error){
-      setError(error)
-    }      
-  }
+  // // get list of shows by especial year
+  // const getShowsListByYear = (year) => fetchShowsByYear(year);
+  // const fetchShowsByYear = async (year) => {
+  //   try {
+  //     const response = await fetch(url + "?year=" + year);
+  //     const data = await response.json();
+  //     console.log(data);
+  //     // setShowList(data)
+  //     toViewList()
+  //   }
+  //   catch(error){
+  //     setError(error)
+  //   }      
+  // }
 
 
   return (
@@ -337,7 +344,8 @@ export const ShowListProvider = ({ children }) => {
         editLoading,
         editShowData,
         yearsList,
-        getShowsListByYear
+        year,
+        setYear
       }}
     >
       {children}
