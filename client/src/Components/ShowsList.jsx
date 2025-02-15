@@ -15,6 +15,7 @@ function ShowsList() {
     loading,
     error,
     setToView,
+    toView,
     toViewList,
     yearsList,
     year,
@@ -30,12 +31,15 @@ function ShowsList() {
         ? "InComplete"
         : toViewSelect
     );
+    console.log("compSelect: " , compSelect);
+    console.log("toViewSelect: " + toViewSelect);
     toViewList();
-  }, [toViewSelect]);
+    
+  }, [toViewSelect, localStorage.getItem("toView")]);
 
   return (
     <section>
-      {console.log(compSelect)}
+      {/* {console.log(compSelect)} */}
       {loading ? (
         <SpinnerDotted />
       ) : error ? (

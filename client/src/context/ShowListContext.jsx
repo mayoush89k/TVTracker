@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import ShowsList from "../Components/ShowsList";
 
 export const ShowListContext = createContext();
 export const useShowList = () => useContext(ShowListContext);
@@ -15,11 +16,13 @@ export const ShowListProvider = ({ children }) => {
   const [yearsList, setYearsList] = useState([]);
   const [year, setYear] = useState("0");
 
-
   const url = "https://tvtracker.onrender.com/shows/";
   // const url = "http://localhost:3434/shows/";
 
   useEffect(() => {
+    console.log("year: ", year);
+    console.log("toViewList: ", toView);
+    
     toViewList();
     fetchYears();
   }, [toView, year]);
@@ -28,7 +31,9 @@ export const ShowListProvider = ({ children }) => {
   const fetchGetAllShowLists = async () => {
     try {
       setLoading(true);
-      const response = await fetch( Number(year) == 0 ? url : url + "?year=" + year);
+      const response = await fetch(
+        Number(year) == 0 ? url : url + "?year=" + year
+      );
       const data = await response.json();
       setShowList(data);
       setLoading(false);
@@ -53,12 +58,12 @@ export const ShowListProvider = ({ children }) => {
         body: JSON.stringify(newShowList),
       });
       setShowList([...showList, response.data]);
-      
+
       if (response.status != 400)
         response.status == 409
-      ? setNewShowError("Conflict Item")
-      : setNewShowError("There is an Error to Add this Show");
-      
+          ? setNewShowError("Conflict Item")
+          : setNewShowError("There is an Error to Add this Show");
+
       setNewShowLoading(false);
       toViewList();
       return response.data;
@@ -66,7 +71,7 @@ export const ShowListProvider = ({ children }) => {
       setNewShowError(newShowError);
     }
   };
-  
+
   // delete item from show list
   const deleteShowItem = (id) => fetchDeletingShowItem(id);
   const fetchDeletingShowItem = async (id) => {
@@ -76,18 +81,18 @@ export const ShowListProvider = ({ children }) => {
         method: "DELETE",
       });
       setShowList(showList.filter((item) => item.id !== id));
-      
+
       setLoading(false);
       toViewList();
     } catch (error) {
       setError(error);
     }
   };
-  
+
   // increasing Episode
   const increaseEpisode = (id, episode) =>
     fetchUpdatingEpisode(id, episode + 1);
-  
+
   // Decreasing Episode
   const decreaseEpisode = (id, episode) =>
     fetchUpdatingEpisode(id, episode - 1);
@@ -104,25 +109,25 @@ export const ShowListProvider = ({ children }) => {
       setShowList(
         showList.map((item) =>
           item._id === id ? { ...item, episode: episode } : item
-      )
-    );
-    setLoading(false);
-    toViewList();
-    return response.data;
-  } catch (error) {
-    setError(error);
-  }
-};
+        )
+      );
+      setLoading(false);
+      toViewList();
+      return response.data;
+    } catch (error) {
+      setError(error);
+    }
+  };
 
-// increasing Season
-const increaseSeason = (id, season) => fetchUpdatingSeason(id, season + 1);
+  // increasing Season
+  const increaseSeason = (id, season) => fetchUpdatingSeason(id, season + 1);
 
-// Decreasing Season
-const decreaseSeason = (id, season) => fetchUpdatingSeason(id, season - 1);
-const fetchUpdatingSeason = async (id, season) => {
-  try {
-    setLoading(true);
-    const response = await fetch(`${url}${id}`, {
+  // Decreasing Season
+  const decreaseSeason = (id, season) => fetchUpdatingSeason(id, season - 1);
+  const fetchUpdatingSeason = async (id, season) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${url}${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -132,39 +137,37 @@ const fetchUpdatingSeason = async (id, season) => {
       setShowList(
         showList.map((item) =>
           item._id === id ? { ...item, season: season } : item
-      )
-    );
-    setLoading(false);
-    toViewList();
-    return response.data;
-  } catch (error) {
-    setError(error);
-  }
-};
-
-// changing Complete between true and false
-const updateIsComplete = (id, isCompleted) =>
-  fetchUpdatingIsComplete(id, isCompleted ? false : true);
-
-const fetchUpdatingIsComplete = async (id, isCompleted) => {
-  try {
-    setLoading(true);
-    const response = await fetch(`${url}${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ isCompleted: isCompleted }),
-    });
-    
-    setShowList(
-      showList.map((item) =>
-        item._id === id ? { ...item, isCompleted: isCompleted } : item
         )
       );
-      
+      setLoading(false);
+      toViewList();
+      return response.data;
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  // changing Complete between true and false
+  const updateIsComplete = (id, isCompleted) =>
+    fetchUpdatingIsComplete(id, isCompleted ? false : true);
+
+  const fetchUpdatingIsComplete = async (id, isCompleted) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${url}${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isCompleted: isCompleted }),
+      });
+
+      setShowList(
+        showList.map((item) =>
+          item._id === id ? { ...item, isCompleted: isCompleted } : item
+        )
+      );
       localStorage.setItem("toView", "All");
-      setYear("0")
       setLoading(false);
       toViewList();
       return response.data;
@@ -180,31 +183,34 @@ const fetchUpdatingIsComplete = async (id, isCompleted) => {
       case "Completed":
         fetchCompletedShowList();
         break;
-        case "InComplete":
-          fetchInCompleteShowList();
-          break;
-          case "InProgress":
-            fetchInProgressShowList();
-            break;
-            case "ToWatch":
-              fetchToWatchShowList();
+      case "InComplete":
+        fetchInCompleteShowList();
         break;
-        case "All":
-          fetchGetAllShowLists();
-          break;
-          default:
-            fetchGetAllShowLists();
-            break;
-          }
-        };
-        
+      case "InProgress":
+        fetchInProgressShowList();
+        break;
+      case "ToWatch":
+        fetchToWatchShowList();
+        break;
+      case "All":
+        fetchGetAllShowLists();
+        break;
+      default:
+        fetchGetAllShowLists();
+        break;
+    }
+  };
+
   // get all the data that has IsCompleted = true /?Completed=true"
   const fetchCompletedShowList = async () => {
     try {
       setLoading(true);
-      const response = year > 0 ? await fetch(url + "?Completed=true&year=" + year) : await fetch(url + "?Completed=true");
+      const response =
+        year > 0
+          ? await fetch(url + "?Completed=true&year=" + year)
+          : await fetch(url + "?Completed=true");
       const data = await response.json();
-      console.log("data fetchCompletedShowList: " , data);
+      console.log("data fetchCompletedShowList: ", data);
       setShowList(data);
       setLoading(false);
     } catch (error) {
@@ -218,7 +224,10 @@ const fetchUpdatingIsComplete = async (id, isCompleted) => {
   const fetchInCompleteShowList = async () => {
     try {
       setLoading(true);
-      const response = year > 0 ? await fetch(url + "?Completed=false&year=" + year) : await fetch(url + "?Completed=false");
+      const response =
+        year > 0
+          ? await fetch(url + "?Completed=false&year=" + year)
+          : await fetch(url + "?Completed=false");
       const data = await response.json();
       setShowList(data);
       setLoading(false);
@@ -232,7 +241,10 @@ const fetchUpdatingIsComplete = async (id, isCompleted) => {
   const fetchInProgressShowList = async () => {
     try {
       setLoading(true);
-      const response = year > 0 ? await fetch(url + "?Completed=false&year=" + year) : await fetch(url + "?Completed=false");
+      const response =
+        year > 0
+          ? await fetch(url + "?Completed=false&year=" + year)
+          : await fetch(url + "?Completed=false");
       const data = await response.json();
       const newData = data.filter((item) => item.episode > 0);
       setShowList(newData);
@@ -246,7 +258,10 @@ const fetchUpdatingIsComplete = async (id, isCompleted) => {
   const fetchToWatchShowList = async () => {
     try {
       setLoading(true);
-      const response = year > 0 ? await fetch(url + "?Completed=false&year=" + year) : await fetch(url + "?Completed=false");
+      const response =
+        year > 0
+          ? await fetch(url + "?Completed=false&year=" + year)
+          : await fetch(url + "?Completed=false");
       const data = await response.json();
       const newData = data.filter((item) => item.episode == 0);
       setShowList(newData);
@@ -262,7 +277,7 @@ const fetchUpdatingIsComplete = async (id, isCompleted) => {
   const fetchEditShowItem = async (item) => {
     try {
       console.log(item);
-      
+
       setEditLoading(true);
       const response = await fetch(url + item._id, {
         method: "PUT",
@@ -273,7 +288,6 @@ const fetchUpdatingIsComplete = async (id, isCompleted) => {
       });
       const data = await response.json();
       console.log(data);
-      
 
       toViewList();
       setEditLoading(false);
@@ -295,13 +309,13 @@ const fetchUpdatingIsComplete = async (id, isCompleted) => {
         if (!acc.includes(item.year)) acc.push(item.year);
         return acc;
       }, []);
-      setYearsList(filteredYears);
+      setYearsList(filteredYears.sort((a, b) => a - b));
     } catch (error) {
       setError(error);
     }
   };
 
-  return (
+  return (  
     <ShowListContext.Provider
       value={{
         showList,
@@ -326,7 +340,7 @@ const fetchUpdatingIsComplete = async (id, isCompleted) => {
         editShowData,
         yearsList,
         year,
-        setYear
+        setYear,
       }}
     >
       {children}
