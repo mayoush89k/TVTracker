@@ -16,13 +16,12 @@ function AddShow() {
       setNewShowError("Insert Show Name");
     }
     addNewShowList(newShowItem);
-    console.log("error: ", newShowError);
 
     setTimeout(() => {
       closeModal();
-    }, 2000);
+    }, 3000);
   };
-
+ 
   useEffect(() => {
     setNewShowError("");
   }, []);
