@@ -12,10 +12,10 @@ function ShowsList() {
   const [inCompSelect, setInCompSelect] = useState("");
   const {
     showList,
+    ListBySearch,
     loading,
     error,
     setToView,
-    toView,
     toViewList,
     yearsList,
     year,
@@ -31,11 +31,17 @@ function ShowsList() {
         ? "InComplete"
         : toViewSelect
     );
-    console.log("compSelect: " , compSelect);
+    console.log("compSelect: ", compSelect);
     console.log("toViewSelect: " + toViewSelect);
     toViewList();
-    
   }, [toViewSelect, localStorage.getItem("toView")]);
+
+  const searchForShow = (e) => {
+    e.preventDefault();
+    setTimeout(() => {
+      ListBySearch(e.target.value);
+    }, 1500);
+  };
 
   return (
     <section>
@@ -46,50 +52,57 @@ function ShowsList() {
         <h1>Something went wrong</h1>
       ) : (
         <section>
-          <select
-            className="completed"
-            onChange={(e) => {
-              setToViewSelect(e.target.value);
-            }}
-            value={compSelect}
-          >
-            <option value="" disabled hidden>
-              Choose an option
-            </option>
-            <option value="All">All</option>
-            <option value="Completed">Completed</option>
-            <option value="InComplete">InComplete</option>
-          </select>
-
-          {compSelect == "InComplete" && (
+          <section className="menu-container">
             <select
-              onChange={(e) => setToViewSelect(e.target.value)}
               className="completed"
-              value={inCompSelect}
+              onChange={(e) => {
+                setToViewSelect(e.target.value);
+              }}
+              value={compSelect}
             >
               <option value="" disabled hidden>
                 Choose an option
               </option>
-              <option value="InComplete">All</option>
-              <option value="InProgress">in Progress</option>
-              <option value="ToWatch">To Watch</option>
+              <option value="All">All</option>
+              <option value="Completed">Completed</option>
+              <option value="InComplete">InComplete</option>
             </select>
-          )}
-          <select
-            className="completed"
-            onChange={(e) => {
-              // setCheckedYear(e.target.value)
-              setYear(Number(e.target.value));
-            }}
-            value={year}
-          >
-            <option value="0">All Years</option>
-            {yearsList.map((currYear, key) => (
-              <option value={currYear} key={key}>
-                {currYear}
-              </option>
-            ))}
-          </select>
+
+            {compSelect == "InComplete" && (
+              <select
+                onChange={(e) => setToViewSelect(e.target.value)}
+                className="completed"
+                value={inCompSelect}
+              >
+                <option value="" disabled hidden>
+                  Choose an option
+                </option>
+                <option value="InComplete">All</option>
+                <option value="InProgress">in Progress</option>
+                <option value="ToWatch">To Watch</option>
+              </select>
+            )}
+            <select
+              className="completed"
+              onChange={(e) => {
+                setYear(Number(e.target.value));
+              }}
+              value={year}
+            >
+              <option value="0">All Years</option>
+              {yearsList.map((currYear, key) => (
+                <option value={currYear} key={key}>
+                  {currYear}
+                </option>
+              ))}
+            </select>
+            <input
+              className="Search"
+              type="text"
+              placeholder="Search"
+              onChange={searchForShow}
+            />
+          </section>
           <section className="showList">
             {showList.length == 0 ? (
               <h1 className="">No shows found</h1>
@@ -98,7 +111,7 @@ function ShowsList() {
                 <ShowItemCard key={item._id} item={item} />
               ))
             )}
-            </section>
+          </section>
         </section>
       )}
     </section>

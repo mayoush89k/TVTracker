@@ -22,7 +22,7 @@ export const ShowListProvider = ({ children }) => {
   useEffect(() => {
     console.log("year: ", year);
     console.log("toViewList: ", toView);
-    
+
     toViewList();
     fetchYears();
   }, [toView, year]);
@@ -315,7 +315,22 @@ export const ShowListProvider = ({ children }) => {
     }
   };
 
-  return (  
+  // get list by search
+  const ListBySearch = (text) => fetchSearchForShow(text);
+  const fetchSearchForShow = async (text) => {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const filteredList = data.filter((item) =>
+        item.name.toLowerCase().includes(text.toLowerCase())
+      );
+      setShowList(filteredList);
+    } catch (error) {
+      // setError(error);
+    }
+  };
+
+  return (
     <ShowListContext.Provider
       value={{
         showList,
@@ -341,6 +356,7 @@ export const ShowListProvider = ({ children }) => {
         yearsList,
         year,
         setYear,
+        ListBySearch,
       }}
     >
       {children}
