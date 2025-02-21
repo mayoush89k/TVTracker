@@ -75,7 +75,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .completed {
+  .filters {
     background-color: #2f2f2f;
   }
 }
