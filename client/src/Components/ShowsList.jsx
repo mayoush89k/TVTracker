@@ -3,6 +3,7 @@ import { SpinnerDotted } from "spinners-react";
 import { useEffect } from "react";
 import { useShowList } from "../context/ShowListContext.jsx";
 import ShowItemCard from "./ShowItemCard.jsx";
+import "./Menu.css";
 
 function ShowsList() {
   const [toViewSelect, setToViewSelect] = useState(
@@ -53,8 +54,14 @@ function ShowsList() {
       ) : (
         <section>
           <section className="menu-container">
+            <input
+              className="search"
+              type="text"
+              placeholder="Search"
+              onChange={searchForShow}
+            />
             <select
-              className="completed"
+              className="filters"
               onChange={(e) => {
                 setToViewSelect(e.target.value);
               }}
@@ -71,7 +78,7 @@ function ShowsList() {
             {compSelect == "InComplete" && (
               <select
                 onChange={(e) => setToViewSelect(e.target.value)}
-                className="completed"
+                className="filters"
                 value={inCompSelect}
               >
                 <option value="" disabled hidden>
@@ -83,7 +90,7 @@ function ShowsList() {
               </select>
             )}
             <select
-              className="completed"
+              className="filters"
               onChange={(e) => {
                 setYear(Number(e.target.value));
               }}
@@ -96,12 +103,6 @@ function ShowsList() {
                 </option>
               ))}
             </select>
-            <input
-              className="Search"
-              type="text"
-              placeholder="Search"
-              onChange={searchForShow}
-            />
           </section>
           <section className="showList">
             {showList.length == 0 ? (
