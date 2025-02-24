@@ -81,6 +81,7 @@
   right: 20px;
   top: 20px;
   padding: 0.5rem 1rem;
+  z-index: 2;
 }
 .bPlus,
 .bMinus {
@@ -91,8 +92,7 @@
 .bPlus,
 .bMinus,
 .addNew,
-.delete:hover,
-.edit:hover,
+.bottomButtons:hover,
 .addNewModal select:focus,
 .addNewModal input:focus,
 .addNewModal button {
@@ -109,8 +109,7 @@
 .bPlus:hover,
 .bMinus:hover,
 .addNew:hover,
-.delete,
-.edit,
+.bottomButtons,
 .addNewModal select,
 .addNewModal input,
 .addNewModal button:hover {
@@ -125,8 +124,9 @@
 .bPlus:hover,
 .bMinus:hover {
   margin: 2px;
-  width: 50px;
-  font-size: 2rem;
+  width: 30px;
+  font-size: 1.5rem;
+
 }
 
 .ratingSpan {
@@ -176,6 +176,59 @@
   text-align: center;
 }
 
+
+.tooltip-btn {
+  position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px;
+}
+.test{
+  z-index: -1;
+}
+/* Tooltip styling */
+.tooltip-text {
+  visibility: hidden;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 150%; /* Position above button */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* Arrow pointing down */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.tooltip-btn:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+.buttons-container{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
 @media screen and (max-width: 600px) {
   #root {
     padding: 10px;
@@ -198,6 +251,8 @@
   .cardContainer {
     padding: 0.7rem;
     margin: 0.5rem 0.1rem;
+    width: 100%;
+    z-index: -1;
   }
   .card {
     flex-direction: row;
@@ -230,8 +285,7 @@
     font-size: 12px;
     padding: 5px 15px;
   }
-  .edit,
-  .delete {
+  .bottomButtons {
     margin: 5px;
     padding: 5px;
   }

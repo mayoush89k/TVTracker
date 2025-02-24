@@ -330,6 +330,28 @@ export const ShowListProvider = ({ children }) => {
     }
   };
 
+  //  re-watch means that will start the episodes from the beginning and that will move the show to inProgress
+  const reWatchShow = (item) => fetchReWatchShow(item);
+  const fetchReWatchShow = async (item) => {
+    try {
+      const response = await fetch(url + "" + item._id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...item,
+          isCompleted:false,
+          episode: 0,
+        }),
+      });
+      const data = await response.json();
+      toViewList()
+    } catch (error) {
+      setError(error);
+    }
+  };
+
   return (
     <ShowListContext.Provider
       value={{
@@ -357,6 +379,7 @@ export const ShowListProvider = ({ children }) => {
         year,
         setYear,
         ListBySearch,
+        reWatchShow
       }}
     >
       {children}

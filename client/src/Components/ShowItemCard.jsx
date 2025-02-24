@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StarRating from "./StarRating";
 import { useShowList } from "../context/ShowListContext";
 import EditingShow from "./EditingShow";
@@ -13,17 +13,26 @@ function ShowItemCard({ item }) {
     increaseSeason,
     decreaseSeason,
     updateIsComplete,
+    reWatchShow,
   } = useShowList();
+ // make the tooltip buttons index behind the modal i have to save them here
+ const tooltipButtons = document.querySelectorAll(".tooltip-btn");
+
+  useEffect(() => {
+    isOpenEditModel
+      ? tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = -1))
+      : tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = 1));
+  }, [isOpenEditModel]);
 
   return (
     <section className="cardContainer">
-      {isOpenEditModel && <EditingShow item={item} setIsOpenEditModel={setIsOpenEditModel} />}
+      {isOpenEditModel && (
+        <EditingShow item={item} setIsOpenEditModel={setIsOpenEditModel} />
+      )}
       {/* Name */}
-      <div className="title">{item.name}
-
-      </div>
+      <div className="title">{item.name}</div>
       {/* Year */}
-      {item.year > 0 ? <div className="title">{item.year}</div>: <div>-</div>}
+      {item.year > 0 ? <div className="title">{item.year}</div> : <div>-</div>}
       <section className="card">
         {/* Completed icon */}
         <div className="completedIcon">
@@ -96,28 +105,41 @@ function ShowItemCard({ item }) {
             />
           </span>
         </div>
-        <div>
-          {/* Delete */}
-          <button
-            className="delete"
-            onClick={() => {
-              deleteShowItem(item._id);
-            }}
-          >
-            🗑️
-          </button>
-          {/* Edit */}
-          <button
-            className="edit"
-            onClick={() => {
-              setIsOpenEditModel(true);
-            }}
-          >
-            ✏️
-          </button>
-        </div>
-        {error && <h4>{error}</h4>}
       </section>
+      <div className="buttons-container">
+        {/* Re-Watch */}
+        <button
+          className="tooltip-btn"
+          onClick={() => {
+            reWatchShow(item);
+          }}
+        >
+          ↩️
+          <span className="tooltip-text">Re-Watch</span>
+        </button>
+        {/* Delete */}
+        <button
+          className="tooltip-btn"
+          onClick={() => {
+            deleteShowItem(item._id);
+          }}
+        >
+          🗑️
+          <span className="tooltip-text">Delete</span>
+        </button>
+        {/* Edit */}
+        <button
+          className="tooltip-btn"
+          title="Edit"
+          onClick={() => {
+            setIsOpenEditModel(true);
+          }}
+        >
+          ✏️
+          <span className="tooltip-text">Edit</span>
+        </button>
+      </div>
+      {error && <h4>{error}</h4>}
     </section>
   );
 }

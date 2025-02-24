@@ -10,6 +10,9 @@ function AddShow() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  // make the tooltip buttons index behind the modal i have to save them here
+  const tooltipButtons = document.querySelectorAll(".tooltip-btn");
+
   const saveHandle = (e) => {
     e.preventDefault();
     if (newShowItem.name != "") {
@@ -21,18 +24,23 @@ function AddShow() {
       closeModal();
     }, 3000);
   };
- 
+
   useEffect(() => {
     setNewShowError("");
   }, []);
 
+  useEffect(() => {
+  isModalOpen ? tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = -1)) :
+  tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = 1));
+}, [isModalOpen]);
+
   return (
-    <section>
+    <section className="addModel-container">
       <button
         className="addNew"
         onClick={() => {
           setNewShowError("");
-          openModal();
+          isModalOpen ? closeModal() : openModal();
         }}
       >
         Add New Show
