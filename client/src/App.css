@@ -36,52 +36,107 @@
 .read-the-docs {
   color: #888;
 }
-
-.showList {
+.menu-container{
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-
-  gap: 0;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
 }
-
-.cardContainer {
-  border: 1px sold blueviolet;
-  padding: 1rem;
-  border-radius: 1rem;
-  box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
-  font-size: larger;
-  font-weight: bold;
+.quantity{
   color: blueviolet;
-  margin: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
+  font-size: 0.7rem;
+  font-weight: bold;
 
-.card {
-  height: 350px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
 }
-
-.seasonButtons,
-.episodeButtons {
-  display: flex;
-  flex-direction: row;
-}
-
 .addNew {
   position: fixed;
   right: 20px;
   top: 20px;
   padding: 0.5rem 1rem;
   z-index: 2;
+}
+.editModal,
+.addNewModal {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  /* padding: 2rem; */
+  border-radius: 10px;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
+  margin: 50px;
+}
+.modalHeader{
+  display: flex; flex-direction:row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: blueviolet;
+  color: white;
+  padding: 1rem;
+}
+.editModal form,
+.addNewModal form {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  padding: 2rem;
+  text-align: left;
+  color: blueviolet;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.starRatingContainer {
+  font-size: 1rem;
+  text-align: center;
+}
+.showList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 1rem;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px sold blueviolet;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
+  font-size: larger;
+  font-weight: bold;
+  color: blueviolet;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 0.3rem;
+}
+.SeasonContainer,
+.EpisodeContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 1rem;
+  gap: 1rem;
+}
+.seasonButtons,
+.episodeButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
 .bPlus,
 .bMinus {
@@ -93,17 +148,26 @@
 .bMinus,
 .addNew,
 .bottomButtons:hover,
+.editModal select:focus,
+.editModal input:focus,
 .addNewModal select:focus,
 .addNewModal input:focus,
-.addNewModal button {
+.submit {
   background-color: blueviolet;
-  margin: 0.5rem;
   color: white;
 }
+.editModal select,
+.editModal input,
 .addNewModal select,
 .addNewModal input,
-.addNewModal button:hover {
+.submit,
+.submit:hover {
   padding: 0.5rem 1rem;
+  margin: 0.5rem;
+}
+.editModal label,
+.addNewModal label{
+  padding: 0rem 0.5rem;
 }
 
 .bPlus:hover,
@@ -112,10 +176,11 @@
 .bottomButtons,
 .addNewModal select,
 .addNewModal input,
-.addNewModal button:hover {
+.editModal select,
+.editModal input,
+.submit:hover {
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
   background-color: white;
-  margin: 0.5rem;
   color: blueviolet;
 }
 
@@ -123,60 +188,23 @@
 .bMinus,
 .bPlus:hover,
 .bMinus:hover {
-  margin: 2px;
   width: 30px;
   font-size: 1.5rem;
-
 }
-
-.ratingSpan {
-  margin: 1px;
-  padding: 1px;
-}
-
-.starButton {
-  margin: 10px;
-  padding: 5px 15px;
-}
-
-.addNewModal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
-  margin: 50px;
-}
-.addNewModal form {
-  display: flex;
-  flex-direction: column;
-  margin: 2rem;
-  padding: 2rem;
-  text-align: left;
+.close{
   color: blueviolet;
-  font-size: 1rem;
   font-weight: bold;
+  padding: 5px;
 }
-
-.SeasonContainer,
-.EpisodeContainer {
+.formES{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  width: 100%;
-  font-size: 1rem;
 }
-
-.starRatingContainer {
-  font-size: 1rem;
-  text-align: center;
+.formES input{
+  width: 50px;
 }
-
-
 .tooltip-btn {
   position: relative;
   border: none;
@@ -191,7 +219,7 @@
   background-color: black;
   color: white;
   text-align: center;
-  padding: 5px 10px;
+  /* padding: 5px 10px; */
   border-radius: 5px;
   position: absolute;
   bottom: 150%; /* Position above button */
@@ -220,7 +248,7 @@
   opacity: 1;
   transform: translateX(-50%) translateY(-5px);
 }
-.buttons-container{
+.buttons-container {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -231,16 +259,20 @@
     padding: 10px;
   }
   .addNew {
-    position: relative;
     font-size: 12px;
     padding: 0.5rem;
     margin: 1rem;
+    bottom: 1rem;
+    top: auto;
   }
   section.showList {
     flex-direction: column;
   }
-  section {
+  .menu-container {
     margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 0.1rem;
   }
   .title {
     font-size: 1.1rem;
@@ -258,7 +290,7 @@
     height: 100%;
     padding: 0.2rem;
     margin: 0.2rem;
-    gap: 0.2rem;
+    /* gap: 0.2rem; */
     width: 100%;
   }
   .completedIcon {
@@ -285,12 +317,18 @@
     margin: 5px;
     padding: 5px;
   }
+  .editModal,
   .addNewModal {
     margin: auto;
+    border: 10px solid blueviolet;
   }
+  .modalHeader{
+    padding: 0 2rem;
+  }
+  .editModal form,
   .addNewModal form {
     margin: 0.4rem;
-    padding: 0.4rem;
+    padding: 0.4rem 2rem;
     font-size: 12px;
   }
   .SeasonContainer,
@@ -299,7 +337,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+  }
+  .seasonButtons, .episodeButtons{
+    gap: 0.1rem;
   }
   .starRatingContainer {
     font-size: 0.5rem;

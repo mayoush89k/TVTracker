@@ -30,9 +30,10 @@ function AddShow() {
   }, []);
 
   useEffect(() => {
-  isModalOpen ? tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = -1)) :
-  tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = 1));
-}, [isModalOpen]);
+    isModalOpen
+      ? tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = -1))
+      : tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = 1));
+  }, [isModalOpen]);
 
   return (
     <section className="addModel-container">
@@ -43,70 +44,83 @@ function AddShow() {
           isModalOpen ? closeModal() : openModal();
         }}
       >
-        Add New Show
+        +
       </button>
       {isModalOpen && (
         <section className="addNewModal">
           {newShowLoading ? (
-            <SpinnerDotted />
+            <SpinnerDotted color="blueviolet" />
           ) : newShowError ? (
             <h4>{newShowError}</h4>
           ) : (
-            <form>
-              <section style={{ display: "flex", flexDirection: "row" }}>
+            <section>
+              <section className="modalHeader">
                 <h2>Add New TV Show </h2>
-                <button style={{ padding: "10px" }} onClick={closeModal}>
+                <button
+                  className="close"
+                  style={{ padding: "10px" }}
+                  onClick={closeModal}
+                >
                   X
                 </button>
               </section>
-              <input
-                onChange={(e) =>
-                  setNewShowItem({ ...newShowItem, name: e.target.value })
-                }
-                type="text"
-                placeholder="Enter Show Name"
-              />
-              <label>Year:</label>
-              <input
-                onChange={(e) =>
-                  setNewShowItem({ ...newShowItem, year: e.target.value })
-                }
-                type="number"
-                placeholder="Enter Year"
-              />
-              <label>Season:</label>
-              <input
-                onChange={(e) =>
-                  setNewShowItem({ ...newShowItem, season: e.target.value })
-                }
-                type="number"
-                placeholder="Enter Season"
-                defaultValue="1"
-              />
-              <label>Episode:</label>
-              <input
-                onChange={(e) =>
-                  setNewShowItem({ ...newShowItem, episode: e.target.value })
-                }
-                type="number"
-                placeholder="Enter Episode"
-                defaultValue="1"
-              />
-              <label>Rating:</label>
-              <select
-                onChange={(e) =>
-                  setNewShowItem({ ...newShowItem, rating: e.target.value })
-                }
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              {newShowError && <label>{newShowError}</label>}
-              <button onClick={saveHandle}>Save</button>
-            </form>
+              <form>
+                <input
+                  onChange={(e) =>
+                    setNewShowItem({ ...newShowItem, name: e.target.value })
+                  }
+                  type="text"
+                  placeholder="Enter Show Name"
+                />
+                <label>Year:</label>
+                <input
+                  onChange={(e) =>
+                    setNewShowItem({ ...newShowItem, year: e.target.value })
+                  }
+                  type="number"
+                  placeholder="Enter Year"
+                />
+                <section className="formES">
+                  <label>Season:</label>
+                  <input
+                    onChange={(e) =>
+                      setNewShowItem({ ...newShowItem, season: e.target.value })
+                    }
+                    type="number"
+                    placeholder="Enter Season"
+                    defaultValue="1"
+                  />
+                  <label>Episode:</label>
+                  <input
+                    onChange={(e) =>
+                      setNewShowItem({
+                        ...newShowItem,
+                        episode: e.target.value,
+                      })
+                    }
+                    type="number"
+                    placeholder="Enter Episode"
+                    defaultValue="1"
+                  />
+                </section>
+                <label>Rating:</label>
+                <select
+                  onChange={(e) =>
+                    setNewShowItem({ ...newShowItem, rating: e.target.value })
+                  }
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                {newShowError && <label>{newShowError}</label>}
+                <button className="submit" onClick={saveHandle}>
+                  Save
+                </button>
+              </form>
+            </section>
           )}
         </section>
       )}

@@ -52,13 +52,9 @@ function ShowItemCard({ item }) {
         <div>
           <StarRating rating={item.rating} />
         </div>
-        {/* current S/Ep */}
-        <div>
-          S{item.season} / E{item.episode}
-        </div>
         {/* Inc/Dec Season */}
         <div className="SeasonContainer">
-          <label>Season:</label>
+          <label>Season: {item.season}</label>
           <span className="seasonButtons">
             <input
               type="button"
@@ -83,7 +79,7 @@ function ShowItemCard({ item }) {
         </div>
         {/* Inc/Dec Episode */}
         <div className="EpisodeContainer">
-          <label>Episode:</label>
+          <label>Episode: {item.episode}</label>
           <span className="episodeButtons">
             <input
               type="button"

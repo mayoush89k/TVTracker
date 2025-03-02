@@ -11,7 +11,6 @@ function App() {
     <>
       <main>
         <ShowListProvider>
-          <AddShow/>
           <ShowsList/>
         </ShowListProvider>
       </main>
