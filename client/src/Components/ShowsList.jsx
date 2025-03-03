@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useShowList } from "../context/ShowListContext.jsx";
 import ShowItemCard from "./ShowItemCard.jsx";
 import "./Menu.css";
+import AddShow from "./AddShow.jsx";
 
 function ShowsList() {
   const [toViewSelect, setToViewSelect] = useState(
@@ -15,6 +16,7 @@ function ShowsList() {
     showList,
     ListBySearch,
     loading,
+    listLoading,
     error,
     setToView,
     toViewList,
@@ -48,12 +50,13 @@ function ShowsList() {
     <section>
       {/* {console.log(compSelect)} */}
       {loading ? (
-        <SpinnerDotted />
+        <SpinnerDotted color="blueviolet" />
       ) : error ? (
         <h1>Something went wrong</h1>
       ) : (
         <section>
           <section className="menu-container">
+            <AddShow />
             <input
               className="search"
               type="text"
@@ -103,9 +106,18 @@ function ShowsList() {
                 </option>
               ))}
             </select>
+            <section className="quantity">
+              {listLoading ? (
+                <SpinnerDotted color="blueviolet" size="1rem" />
+              ) : (
+                showList.length
+              )}
+            </section>
           </section>
           <section className="showList">
-            {showList.length == 0 ? (
+            {listLoading ? (
+              <SpinnerDotted color="blueviolet" />
+            ) : showList.length == 0 ? (
               <h1 className="">No shows found</h1>
             ) : (
               showList.map((item) => (
