@@ -47,35 +47,55 @@
 @media screen and (max-width: 600px) {
   .search-container {
     justify-content: space-between;
+    gap: 0.5rem;
   }
-  .search {
-    width: 20px;
+  .quantity,
+  .search,
+  .filters{
+    font-size: 0.6rem;
+  }
+  .search{
+    width: 20%;
+    transition: width 1.5s ease-in-out;
+    padding: 0.2rem;
+  }
+  .search:focus{
+    width: 100%;
+  }
+  .filters{
+    transition: display 1.5s ease-in-out;
+    display: block;
+  }
+  .search:focus ~ .filters{
+    display: none;
+  }
+/*  .search {
+    width: 100%;
     height: 20px;
     font-size: 10px;
-    padding: 5px;
-    transition: width 0.3s ease-in-out;
+    transition: width 1.5s ease-in-out;
     border: 1px solid gray;
     outline: none;
   }
-
-  .search:focus {
-    width: 80%; /* Expands when focused */
+*/
+  /* .search:focus {
+    width: 80%; / Expands when focused /
     border: 2px solid blue;
-  }
-  .filters {
+  } */
+  /* .filters {
     font-size: 0.7rem;
+      display: block; / Initially visible /
+      transition: opacity 1.5s ease-in-out, visibility 1.5s ease-in-out;
+    } */
+    
+    /* .search:focus ~ .filters {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      display: none;
+    } */
+    .quantity{
+      margin-left: 0.2rem;
+    }
   }
 
-  /* Hide other select inputs when search is focused */
-  .search:focus ~ .filters {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .filters {
-    background-color: #2f2f2f;
-  }
-}
