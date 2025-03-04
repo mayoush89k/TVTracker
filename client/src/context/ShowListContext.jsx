@@ -13,9 +13,9 @@ export const ShowListProvider = ({ children }) => {
   const [newShowLoading, setNewShowLoading] = useState("");
   const [editError, setEditError] = useState("");
   const [editLoading, setEditLoading] = useState(false);
-  const [toView, setToView] = useState(localStorage.getItem("toView"));
+  const [toView, setToView] = useState(localStorage.getItem("toView") ? localStorage.getItem("toView") : "");
   const [yearsList, setYearsList] = useState([]);
-  const [year, setYear] = useState(localStorage.getItem("filterYear"));
+  const [year, setYear] = useState(localStorage.getItem("filterYear") ? localStorage.getItem("filterYear") : "" );
   const [filterYear, setFilterYear] = useState(0);
 
   const url = "https://tvtracker.onrender.com/shows/";
@@ -107,11 +107,13 @@ export const ShowListProvider = ({ children }) => {
   const deleteShowItem = (id) => fetchDeletingShowItem(id);
   const fetchDeletingShowItem = async (id) => {
     try {
+      setListLoading(true);
       const response = await fetch(`${url}${id}`, {
         method: "DELETE",
       });
       setShowList(showList.filter((item) => item.id !== id));
       toViewList();
+      setListLoading(false);
     } catch (error) {
       setError(error);
     }
@@ -127,6 +129,7 @@ export const ShowListProvider = ({ children }) => {
 
   const fetchUpdatingEpisode = async (id, episode) => {
     try {
+      setListLoading(true);
       const response = await fetch(`${url}${id}`, {
         method: "PUT",
         headers: {
@@ -140,6 +143,7 @@ export const ShowListProvider = ({ children }) => {
         )
       );
       toViewList();
+      setListLoading(false);
       return response.data;
     } catch (error) {
       setError(error);
@@ -154,6 +158,7 @@ export const ShowListProvider = ({ children }) => {
   
   const fetchUpdatingSeason = async (id, season) => {
     try {
+      setListLoading(true);
       const response = await fetch(`${url}${id}`, {
         method: "PUT",
         headers: {
@@ -167,6 +172,7 @@ export const ShowListProvider = ({ children }) => {
         )
       );
       toViewList();
+      setListLoading(false);
       return response.data;
     } catch (error) {
       setError(error);
@@ -179,6 +185,7 @@ export const ShowListProvider = ({ children }) => {
 
   const fetchUpdatingIsComplete = async (id, isCompleted) => {
     try {
+      setListLoading(true);
       const response = await fetch(`${url}${id}`, {
         method: "PUT",
         headers: {
@@ -194,6 +201,7 @@ export const ShowListProvider = ({ children }) => {
       );
       localStorage.setItem("toView", "All");
       toViewList();
+      setListLoading(false);
       return response.data;
     } catch (error) {
       setError(error);
@@ -219,9 +227,9 @@ export const ShowListProvider = ({ children }) => {
   const fetchInCompleteShowList = async () => {
     try {
       const response =
-        year > 0
-          ? await fetch(url + "?Completed=false&year=" + year)
-          : await fetch(url + "?Completed=false");
+      year > 0
+      ? await fetch(url + "?Completed=false&year=" + year)
+      : await fetch(url + "?Completed=false");
       const data = await response.json();
       setShowList(data);
     } catch (error) {
@@ -246,9 +254,9 @@ export const ShowListProvider = ({ children }) => {
   const fetchToWatchShowList = async () => {
     try {
       const response =
-        year > 0
-          ? await fetch(url + "?Completed=false&year=" + year)
-          : await fetch(url + "?Completed=false");
+      year > 0
+      ? await fetch(url + "?Completed=false&year=" + year)
+      : await fetch(url + "?Completed=false");
       const data = await response.json();
       const newData = data.filter((item) => item.episode == 0);
       setShowList(newData);
@@ -314,6 +322,7 @@ export const ShowListProvider = ({ children }) => {
   const reWatchShow = (item) => fetchReWatchShow(item);
   const fetchReWatchShow = async (item) => {
     try {
+      setListLoading(true);
       const response = await fetch(url + "" + item._id, {
         method: "PUT",
         headers: {
@@ -326,6 +335,7 @@ export const ShowListProvider = ({ children }) => {
         }),
       });
       const data = await response.json();
+      setListLoading(false);
       toViewList();
     } catch (error) {
       setError(error);

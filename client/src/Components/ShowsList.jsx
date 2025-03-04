@@ -110,17 +110,17 @@ function ShowsList() {
               {listLoading ? (
                 <SpinnerDotted color="blueviolet" size="1rem" />
               ) : (
-                showList.length
+                showList?.length
               )}
             </section>
           </section>
           <section className="showList">
             {listLoading ? (
               <SpinnerDotted color="blueviolet" />
-            ) : showList.length == 0 ? (
+            ) : showList?.length == 0 ? (
               <h1 className="">No shows found</h1>
             ) : (
-              showList.map((item) => (
+              showList?.map((item) => (
                 <ShowItemCard key={item._id} item={item} />
               ))
             )}
