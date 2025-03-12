@@ -13,22 +13,26 @@ export const ShowListProvider = ({ children }) => {
   const [newShowLoading, setNewShowLoading] = useState("");
   const [editError, setEditError] = useState("");
   const [editLoading, setEditLoading] = useState(false);
-  const [toView, setToView] = useState(localStorage.getItem("toView") ? localStorage.getItem("toView") : "");
+  const [toView, setToView] = useState(
+    localStorage.getItem("toView") ? localStorage.getItem("toView") : ""
+  );
   const [yearsList, setYearsList] = useState([]);
-  const [year, setYear] = useState(localStorage.getItem("filterYear") ? localStorage.getItem("filterYear") : "" );
+  const [year, setYear] = useState(
+    localStorage.getItem("filterYear") ? localStorage.getItem("filterYear") : ""
+  );
   const [filterYear, setFilterYear] = useState(0);
 
   const url = "https://tvtracker.onrender.com/shows/";
   // const url = "http://localhost:3434/shows/";
 
   useEffect(() => {
-    setLoading(true) 
+    setLoading(true);
   }, []);
 
   useEffect(() => {
     toViewList();
     fetchYears();
-    setFilterYear(localStorage.setItem("filterYear" , year))
+    setFilterYear(localStorage.setItem("filterYear", year));
   }, [toView, year]);
 
   // this function is for checking which list to be shown
@@ -57,7 +61,7 @@ export const ShowListProvider = ({ children }) => {
         break;
     }
     setTimeout(() => {
-      setListLoading(false)
+      setListLoading(false);
     }, 1000);
     setLoading(false);
   };
@@ -90,11 +94,16 @@ export const ShowListProvider = ({ children }) => {
       });
       setShowList([...showList, response.data]);
 
-      if (response.status != 400)
+      if (response.status != 201) {
         response.status == 409
           ? setNewShowError("Conflict Item")
           : setNewShowError("There is an Error to Add this Show");
-
+        console.log(response.status);
+      } else {
+        setNewShowError(
+          "The Show '" + newShowList.name + "' \n has been added successfully"
+        );
+      }
       setNewShowLoading(false);
       toViewList();
       return response.data;
@@ -155,7 +164,7 @@ export const ShowListProvider = ({ children }) => {
 
   // Decreasing Season
   const decreaseSeason = (id, season) => fetchUpdatingSeason(id, season - 1);
-  
+
   const fetchUpdatingSeason = async (id, season) => {
     try {
       setListLoading(true);
@@ -227,9 +236,9 @@ export const ShowListProvider = ({ children }) => {
   const fetchInCompleteShowList = async () => {
     try {
       const response =
-      year > 0
-      ? await fetch(url + "?Completed=false&year=" + year)
-      : await fetch(url + "?Completed=false");
+        year > 0
+          ? await fetch(url + "?Completed=false&year=" + year)
+          : await fetch(url + "?Completed=false");
       const data = await response.json();
       setShowList(data);
     } catch (error) {
@@ -254,9 +263,9 @@ export const ShowListProvider = ({ children }) => {
   const fetchToWatchShowList = async () => {
     try {
       const response =
-      year > 0
-      ? await fetch(url + "?Completed=false&year=" + year)
-      : await fetch(url + "?Completed=false");
+        year > 0
+          ? await fetch(url + "?Completed=false&year=" + year)
+          : await fetch(url + "?Completed=false");
       const data = await response.json();
       const newData = data.filter((item) => item.episode == 0);
       setShowList(newData);
@@ -370,7 +379,7 @@ export const ShowListProvider = ({ children }) => {
         year,
         setYear,
         ListBySearch,
-        reWatchShow
+        reWatchShow,
       }}
     >
       {children}
