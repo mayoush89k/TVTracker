@@ -12,6 +12,7 @@ function ShowsList() {
   );
   const [compSelect, setCompSelect] = useState("");
   const [inCompSelect, setInCompSelect] = useState("");
+
   const {
     showList,
     ListBySearch,
@@ -23,6 +24,8 @@ function ShowsList() {
     yearsList,
     year,
     setYear,
+    searchValue, 
+    setSearchValue
   } = useShowList();
 
   useEffect(() => {
@@ -41,6 +44,7 @@ function ShowsList() {
 
   const searchForShow = (e) => {
     e.preventDefault();
+    setSearchValue(e.target.value);
     setTimeout(() => {
       ListBySearch(e.target.value);
     }, 1500);
@@ -61,6 +65,7 @@ function ShowsList() {
               className="search"
               type="text"
               placeholder="Search"
+              value={searchValue}
               onChange={searchForShow}
             />
             <select

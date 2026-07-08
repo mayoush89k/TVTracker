@@ -21,6 +21,8 @@ export const ShowListProvider = ({ children }) => {
     localStorage.getItem("filterYear") ? localStorage.getItem("filterYear") : ""
   );
   const [filterYear, setFilterYear] = useState(0);
+  
+  const [searchValue, setSearchValue] = useState("");
 
   const url = "https://tvtracker.onrender.com/shows/";
   // const url = "http://localhost:3434/shows/";
@@ -35,11 +37,17 @@ export const ShowListProvider = ({ children }) => {
     setFilterYear(localStorage.setItem("filterYear", year));
   }, [toView, year]);
 
+  // reset search bar after any action
+   const resetSearchBarInput = () => {
+    setSearchValue("");
+  };
+
   // this function is for checking which list to be shown
   const toViewList = async () => {
     setToView(localStorage.getItem("toView"));
     setListLoading(true);
     console.log(toView);
+    resetSearchBarInput();
     switch (toView) {
       case "Completed":
         await fetchCompletedShowList();
@@ -107,8 +115,8 @@ export const ShowListProvider = ({ children }) => {
       setNewShowLoading(false);
       toViewList();
       return response.data;
-    } catch (newShowError) {
-      setNewShowError(newShowError);
+    } catch (e) {
+      setNewShowError(e);
     }
   };
 
@@ -380,6 +388,8 @@ export const ShowListProvider = ({ children }) => {
         setYear,
         ListBySearch,
         reWatchShow,
+        searchValue, 
+        setSearchValue
       }}
     >
       {children}
