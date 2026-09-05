@@ -8,7 +8,7 @@ import AddShow from "./AddShow.jsx";
 
 function ShowsList() {
   const [toViewSelect, setToViewSelect] = useState(
-    localStorage.getItem("toView")
+    localStorage.getItem("toView"),
   );
   const [compSelect, setCompSelect] = useState("");
   const [inCompSelect, setInCompSelect] = useState("");
@@ -24,8 +24,10 @@ function ShowsList() {
     yearsList,
     year,
     setYear,
-    searchValue, 
-    setSearchValue
+    searchValue,
+    setSearchValue,
+    rating,
+    setRating,
   } = useShowList();
 
   useEffect(() => {
@@ -35,7 +37,7 @@ function ShowsList() {
     setCompSelect(
       toViewSelect == "ToWatch" || toViewSelect == "InProgress"
         ? "InComplete"
-        : toViewSelect
+        : toViewSelect,
     );
     console.log("compSelect: ", compSelect);
     console.log("toViewSelect: " + toViewSelect);
@@ -108,6 +110,19 @@ function ShowsList() {
               {yearsList.map((currYear, key) => (
                 <option value={currYear} key={key}>
                   {currYear}
+                </option>
+              ))}
+            </select>
+            <select
+              className="filters"
+              onChange={(e) => setRating(Number(e.target.value))}
+              value={rating}
+            >
+              <option value="0">Rating</option>
+
+              {Array.from({ length: 6 }, (_, i) => (
+                <option key={i} value={i}>
+                  {i}
                 </option>
               ))}
             </select>
