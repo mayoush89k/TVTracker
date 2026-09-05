@@ -5,28 +5,25 @@ import {
   getItemById,
   updateItemById,
   deleteItemById,
-  getCompletedShowList,
-  getInCompletedShowList,
   sortShowsByYear,
-  sortShowsByEpisode
+  sortShowsByEpisode,
+  getFilteredShowList,
 } from "../controller/list.Controller.js";
 
 const router = Router();
 
 router.get("/", (req, res, next) => {
-  const { Completed, year, sortBy } = req.query; // Extract the 'Completed' query parameter
+  const { Completed, year, sortBy, rating } = req.query; // Extract the 'Completed' query parameter
 
-  if (Completed === "true") {
-    // Call the getCompletedShowList logic
-    getCompletedShowList(req, res, next);
-  } else if (Completed === "false") {
-    // Call the getInCompletedShowList logic
-    getInCompletedShowList(req, res, next);
-  } else if (sortBy == "year") {
+  if (Completed || year || rating) {
+    getFilteredShowList(req, res, next);
+  }
+  else if (sortBy == "year") {
     sortShowsByYear(req, res, next);
   } else if (sortBy == "episode") {
     sortShowsByEpisode(req, res, next);
-  } else {
+  }
+  else {
     getItems(req, res, next);
   }
 });
