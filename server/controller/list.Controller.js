@@ -85,9 +85,7 @@ export const deleteItemById = async (req, res, next) => {
     if (!isValidObjectId(id)) {
       sendError(res, STATUS_CODES.BAD_REQUEST, "Invalid item id");
     }
-
     const deletedItem = await List.findById({ _id: id });
-
     if (!deletedItem) {
       sendError(res, STATUS_CODES.NOT_FOUND, "Item not found");
     }
@@ -98,33 +96,6 @@ export const deleteItemById = async (req, res, next) => {
     next(error);
   }
 };
-
-// return the completed show list
-export const getCompletedShowList = async (req, res, next) => {
-  try {
-    const { year } = req.query;
-    const items = year
-      ? await List.find({ isCompleted: true, year }).sort({ name : 1})
-      : await List.find({ isCompleted: true }).sort({ name: 1 });
-    res.send(items);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// return the incomplete show list
-export const getInCompletedShowList = async (req, res, next) => {
-  try {
-    const { year } = req.query;
-    const items = year
-      ? await List.find({ isCompleted: false, year }).sort({ name: 1 })
-      : await List.find({ isCompleted: false }).sort({ name: 1 });
-    res.send(items);
-  } catch (error) {
-    next(error);
-  }
-};
-
 
 // sort the shows by year
 export const sortShowsByYear = async (req, res, next) => {
@@ -140,6 +111,42 @@ export const sortShowsByYear = async (req, res, next) => {
 export const sortShowsByEpisode = async (req, res, next) => {
   try {
     const items = await List.find().sort({ episode: 1 });
+    res.send(items);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getFilteredShowList = async (req, res, next) => {
+  try {
+    const { rating, Completed, year } = req.query;
+    const items =
+      // rating completed year
+      rating && year && Completed
+        ? await List.find({ rating, isCompleted: Completed, year }).sort({
+            name: 1,
+          })
+        : // rating year
+          rating && year
+          ? await List.find({ rating, year }).sort({ name: 1 })
+          : // rating completed
+            rating && Completed
+            ? await List.find({ rating, isCompleted: Completed }).sort({
+                name: 1,
+              })
+            : // completed year
+              Completed && year
+              ? await List.find({ isCompleted: Completed, year }).sort({
+                  name: 1,
+                })
+              : // completed
+                Completed
+                ? await List.find({ isCompleted: Completed }).sort({ name: 1 })
+                : // year
+                  year
+                  ? await List.find({ year }).sort({ name: 1 })
+                  : // rating
+                    await List.find({ rating }).sort({ name: 1 });
     res.send(items);
   } catch (error) {
     next(error);
